@@ -26,12 +26,12 @@ public class PlayerCam : MonoBehaviour
 
 		transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
 		orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-        Rotate();
+        // Rotate();
     }
 
-    private void Rotate()
-    {
-		// this sucks.
-        // transform.eulerAngles += _rotateSpeed * new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0);
-    }
+    // this sucks.
+    // private void Rotate()
+    // {
+    //     transform.eulerAngles += _rotateSpeed * new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0);
+    // }
 }
