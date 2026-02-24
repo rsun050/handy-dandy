@@ -48,7 +48,9 @@ public class Player : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.blue;
+        
+        // grounding ray
         Gizmos.DrawRay(transform.position, Vector3.down * (_playerHeight * 0.5f + 0.2f));
     }
 
