@@ -6,6 +6,7 @@ public class PlayerTriggerDetection_Michael : MonoBehaviour
     {
         Engram_Prefab_Data_Michael myEngramData = other.GetComponent<Engram_Prefab_Data_Michael>();
 
+
         if (myEngramData)
         {
             Debug.Log("Item detected");

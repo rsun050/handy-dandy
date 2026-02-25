@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +20,7 @@ public class Player : MonoBehaviour
     private float horizontalInput, verticalInput;
     private Vector3 moveDirection;
     private Rigidbody rb;
+    [SerializeField] private PlayerCam _playerCam;
 
     // Start is called before the first frame update
     void Start()
@@ -80,6 +80,10 @@ public class Player : MonoBehaviour
             Invoke(nameof(ResetJump), _jumpCooldown);
         }
 
+        if(Input.GetKey(KeyCode.Mouse0)) // mouseclick
+        {
+            Interact();
+        }
     }
 
     private void GroundCheck()
@@ -107,5 +111,20 @@ public class Player : MonoBehaviour
     private void ResetJump()
     {
         _readyToJump = true;
+    }
+
+    private void Interact()
+    {
+        GameObject playerCamLooking = _playerCam._lookingAt.collider.gameObject;
+        // check what type we're interacting with: NPC or Item
+
+        if(playerCamLooking != null)
+        {
+            if(playerCamLooking.CompareTag("Item"))
+            {
+                // check if we have room in inventory
+                playerCamLooking.GetComponent<Item>().PickUp();            
+            }
+        }
     }
 }

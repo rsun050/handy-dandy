@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private PlayerCam _playerCam;
 
+    private GameObject _lookingAtItem;
+
     private void Awake()
     {
 		if(Instance != null && Instance != this) {
@@ -31,13 +33,27 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        LookingAtUI();
     }
 
     private void SubscribeToEvents()
     {
-        _playerCam.SawE += LookingAtUI;
-        _playerCam.DidntSeeE += NotLookingAtUI;
+        // _playerCam.SawE += LookingAtUI;
+        // _playerCam.DidntSeeE += NotLookingAtUI;
+    }
+
+    private void LookingAtUI()
+    {
+        GameObject playerCamLooking = _playerCam._lookingAt.collider.gameObject;
+        
+        if(playerCamLooking == null)
+        {
+            NotLookingAtUI();
+        }
+        else if(playerCamLooking != _lookingAtItem)
+        {
+            LookingAtUI(_playerCam._lookingAt);
+        }
     }
 
     private void NotLookingAtUI()
