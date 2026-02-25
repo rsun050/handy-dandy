@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/BUILD 1.unity
     guid: f04fd109d3fd389489431fcefba57d16
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ruth.unity
     guid: 918b6802e11b8bc4c8100c3df6fc8e08
   m_configObjects: {}
