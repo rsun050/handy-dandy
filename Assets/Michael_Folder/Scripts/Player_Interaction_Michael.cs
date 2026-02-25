@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Player_Interaction_Michael : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class Player_Interaction_Michael : MonoBehaviour
     private float holdDuration = 3f;
 
     private I_Interactble_Michael currentTarget;
+
+    [SerializeField] private TextMeshProUGUI successInteractionText;
+    private Coroutine timerCoroutine;
 
     void Update()
     {
@@ -58,6 +62,7 @@ public class Player_Interaction_Michael : MonoBehaviour
 
             if (holdTimer >= holdDuration)
             {
+                Update_SuccessInteractionText(interactable.GetSuccessInteractionText());
                 interactable.OnInteract();
                 ResetInteraction();
             }
@@ -93,5 +98,30 @@ public class Player_Interaction_Michael : MonoBehaviour
 
         holdTimer = 0f;
         progressCircle.fillAmount = 0f;
+    }
+
+    private void Update_SuccessInteractionText(string textParam)
+    {
+        successInteractionText.text = textParam;
+        successInteractionText.gameObject.SetActive(true);
+        StartMyTimer();
+    }
+
+    public void StartMyTimer()
+    {
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+        timerCoroutine = StartCoroutine(TimerRoutine(2));
+    }
+
+    IEnumerator TimerRoutine(int seconds)
+    {
+        while (seconds > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            seconds--;
+        }
+        Debug.Log("Timer Finished!");
+        successInteractionText.text = null;
+        successInteractionText.gameObject.SetActive(false);
     }
 }

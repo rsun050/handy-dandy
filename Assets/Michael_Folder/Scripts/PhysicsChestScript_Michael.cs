@@ -19,11 +19,14 @@ public class PhysicsChestScript_Michael : MonoBehaviour, I_Interactble_Michael
 
     public void OnInteract()
     {
-        Debug.Log("Yippie you opened the PHYSICS chest!");
-
         int randomIndex = Random.Range(0, listOfWeapons.Count);
         string selectedItem = listOfWeapons[randomIndex];
 
         Engram_Collection_Manager_Michael.Instance.SpawnFromPool("Exotic", spawnLocationTransform.position, selectedItem, true, 80, 10);
+    }
+
+    public string GetSuccessInteractionText()
+    {
+        return "Yippie you opened the PHYSICS chest!";
     }
 }

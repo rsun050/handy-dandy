@@ -18,11 +18,14 @@ public class Chest_Script_Michael : MonoBehaviour, I_Interactble_Michael
 
     public void OnInteract()
     {
-        Debug.Log("Yippie you opened the chest!");
-
         int randomIndex = Random.Range(0, listOfWeapons.Count);
         string selectedItem = listOfWeapons[randomIndex];
 
         Engram_Collection_Manager_Michael.Instance.SpawnFromPool("Legendary", spawnLocationTransform.position, selectedItem, false);
+    }
+
+    public string GetSuccessInteractionText()
+    {
+        return "Yippie you opened the chest!";
     }
 }
