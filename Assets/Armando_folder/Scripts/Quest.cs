@@ -11,7 +11,7 @@ public class Quest : ScriptableObject
     public string description;
     public List<QuestObjectives> objectives;
 
-    private void OnEnable()
+    private void OnValidate()
     {
         if (string.IsNullOrEmpty(questID))
         {
@@ -68,5 +68,7 @@ public class Quest : ScriptableObject
             }
         }
         public bool IsCompleted => objectivesProgress.TrueForAll(o => o.IsCompleted);
+
+        public string QuestID => quest.questID;
     }
 }
