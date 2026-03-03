@@ -29,6 +29,9 @@ Refecting on the proposal, it gave me a solid conceptual direction, but I realiz
 Going forward, I want to improve my planning by including more concrete implementation details, specific GameObjects, components, and scripts so that the transition from proposal to development is smoother. 
 
 #### Michael Lopez
+I mainly worked on setting the world up in Unity, but I made some small script improvements. I wrote a script that lets the player switch between First-Person and Third-Person views just by clicking a button on their keyboard. I also built a settings screen with a Slider so the player can change their mouse sensitivity, which involved creating a variable to save that speed. I made several of the models you see in the game, such as the lake, cave, player, houses, terrain, and trees. I also made Animation Controllers for the player and the different NPCs, along with their indivudal animations. This meant I had to plug in my animations and set up the logic (like "Can_Walk") so the character actually moves when they're supposed to.
+
+Looking back at our original plan, it was okay, but I missed a few small things that turned out to be really important. For example, I didn't realize I’d need a Mouse Sensitivity setting until I actually started playing the game and realized the camera moved too fast. I also really underestimated how long Animations would take. Even though my animations were simple, getting them to work right inside Unity took a lot of extra time. To stay organized, I started using a simple Checklist to keep track of these new tasks. Next time, I’m going to plan for extra "fix-it" time and break my tasks down into much smaller steps so I don't get overwhelmed by the little details.
 
 <hr>
 
@@ -39,3 +42,4 @@ Going forward, I want to improve my planning by including more concrete implemen
 ### Michael Lopez
 
 ## Open-Source Assets
+Background Audio [Relaxing Music with Nature Sounds - Waterfall HD](https://www.youtube.com/watch?v=lE6RYpe9IT0&list=RDlE6RYpe9IT0&start_radio=1)
