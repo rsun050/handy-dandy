@@ -1,6 +1,14 @@
 # handy-dandy
 ## Check-In
 ### Team Prompt
+Our game allows the player to pick up items (novel!). A player can pick up an item when the following conditions are both true:
+  - The player is close enough to the item 
+  - The player is looking at said item
+
+The game detects if a player is "looking" at the item by Raycasting from the camera in the direction of the camera's orientation for a certain distance. This Raycast only detects Colliders that are attached to a GameObject that is on the Item layer, so we don't have to worry about the raycast hitting something like an NPC or other obstacle. 
+
+This "is the player looking at an item" code also serves for displaying item information in the UI, to let the player know what they're looking at/about to pick up. Once we know what the player is looking at, we can fetch the item's data and display any relevant information.
+<hr>
 
 ### Individual Prompts
 #### Ruth Sun 
@@ -12,6 +20,8 @@ In future games I think making sure people know specifically what they're doing 
 
 #### Armando Topete
 #### Michael Lopez
+
+<hr>
 
 ## Final Submission
 ### Group Devlog
