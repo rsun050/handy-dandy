@@ -19,6 +19,15 @@ The proposal has been somewhat helpful - keeps the idea straight, although some 
 In future games I think making sure people know specifically what they're doing (more than just 'I'll make [XYZ]'), especially for people newer to what they're doing, would be helpful. For more involved processes like coding, thinking about and refining the design, along with considering all common cases that could take place in gameplay would be important. Communications and regular check-ins also...
 
 #### Armando Topete
+At this stage of the project, I contributed the core foundation of our diegetic inventory system by building the HandRig, HandModels, and Itemslot objects in unity, and creating the apple prefab that appears in the player's hand. 
+
+I also wrote the inventory class, including variables like itemslot and currentItem, and methods such as ShowItem() and clearItem() to control which items is displayed. This work establishes the visual and functional structure for how items appear in the player's hand, matching the architecture in the proposal. 
+
+Refecting on the proposal, it gave me a solid conceptual direction, but I realized it wasn't detailed enough technically I had to figure out specifics like sorting layers, prefab set up, world space positioning, and how the hand UI should attach to the camera. My architecture also shifted slightly once I understood that the inventory needed to be built with SpriteRenders in world spaces, not UI toolkit or Canvas elements. 
+
+
+Going forward, I want to improve my planning by including more concrete implementation details, specific GameObjects, components, and scripts so that the transition from proposal to development is smoother. 
+
 #### Michael Lopez
 
 <hr>
