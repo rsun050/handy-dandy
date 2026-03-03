@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private PlayerCam _playerCam;
 
+    [Header("Inventory")]
+    [SerializeField] private InventoryManager _inventoryManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +41,7 @@ public class Player : MonoBehaviour
         GetInputs();
         ClampSpeed();
 
-        rb.drag = (_isGrounded) ? _moveDrag : 0.0f;
+        rb.drag = (_isGrounded) ? _moveDrag : (_moveDrag * 0.8f);
     }
 
     void FixedUpdate()
@@ -80,9 +83,13 @@ public class Player : MonoBehaviour
             Invoke(nameof(ResetJump), _jumpCooldown);
         }
 
-        if(Input.GetKey(KeyCode.Mouse0)) // mouseclick
+        if(Input.GetKeyDown(KeyCode.E))
         {
             Interact();
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            DropItem();
         }
     }
 
@@ -115,16 +122,18 @@ public class Player : MonoBehaviour
 
     private void Interact()
     {
-        GameObject playerCamLooking = _playerCam._lookingAt.collider.gameObject;
-        // check what type we're interacting with: NPC or Item
+        if(_playerCam._lookingAt.rigidbody == null) { return; }
 
-        if(playerCamLooking != null)
+        GameObject playerCamLooking = _playerCam._lookingAt.rigidbody.gameObject;
+        if(playerCamLooking.CompareTag("Item"))
         {
-            if(playerCamLooking.CompareTag("Item"))
-            {
-                // check if we have room in inventory
-                playerCamLooking.GetComponent<Item>().PickUp();            
-            }
+            _inventoryManager.PickUp(playerCamLooking);
         }
+    }
+
+    // WIP
+    private void DropItem()
+    {
+        // _inventoryManager.Drop();
     }
 }

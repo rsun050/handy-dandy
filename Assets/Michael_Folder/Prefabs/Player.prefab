@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e0bfe3a5655364f864bc3bd91dd0a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 0}
-  _inventoryData: {fileID: 11400000, guid: 86ad22b6d31e1d34795162db21438d00, type: 2}
+  Data: {fileID: 11400000, guid: a5b903fe273c85042a18887fecce1763, type: 2}
+  <_invData>k__BackingField: {fileID: 11400000, guid: 86ad22b6d31e1d34795162db21438d00, type: 2}
 --- !u!1 &1068943303327147719
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +271,7 @@ MonoBehaviour:
     m_Bits: 64
   orientation: {fileID: 6371775440323962445}
   _playerCam: {fileID: 0}
+  _inventoryManager: {fileID: 6248833943974482132}
 --- !u!1 &6812541091640302689
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,8 +316,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e0bfe3a5655364f864bc3bd91dd0a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 0}
-  _inventoryData: {fileID: 11400000, guid: 86ad22b6d31e1d34795162db21438d00, type: 2}
+  Data: {fileID: 11400000, guid: a5b903fe273c85042a18887fecce1763, type: 2}
+  <_invData>k__BackingField: {fileID: 11400000, guid: 86ad22b6d31e1d34795162db21438d00, type: 2}
 --- !u!1 &6833385757729307623
 GameObject:
   m_ObjectHideFlags: 0

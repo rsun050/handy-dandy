@@ -8,4 +8,12 @@ public class Item : MonoBehaviour
     {
         gameObject.SetActive(false); // vanishes
     }
+
+    public void Drop()
+    {
+        if(Data.CanDrop)
+        {
+            gameObject.SetActive(true); // vanishes
+        }
+    }
 }

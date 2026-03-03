@@ -5,16 +5,12 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
 
-    [Header("Movement")]
+    [Header("Item UI")]
     [SerializeField] private GameObject _itemUI;
     [SerializeField] private TMP_Text _itemName;
     [SerializeField] private TMP_Text _itemDesc;
     [SerializeField] private TMP_Text _itemTags;
-
-
     [SerializeField] private PlayerCam _playerCam;
-
-    private GameObject _lookingAtItem;
 
     private void Awake()
     {
@@ -27,45 +23,31 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SubscribeToEvents();
+        _itemUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        LookingAtUI();
-    }
-
-    private void SubscribeToEvents()
-    {
-        // _playerCam.SawE += LookingAtUI;
-        // _playerCam.DidntSeeE += NotLookingAtUI;
+        if(_playerCam._lookingAt.rigidbody)
+        {
+            LookingAtUI();
+        } else
+        {
+            if(_itemUI.activeSelf)
+            {
+                _itemUI.SetActive(false);            
+            }
+        }
     }
 
     private void LookingAtUI()
     {
-        GameObject playerCamLooking = _playerCam._lookingAt.collider.gameObject;
-        
-        if(playerCamLooking == null)
-        {
-            NotLookingAtUI();
-        }
-        else if(playerCamLooking != _lookingAtItem)
-        {
-            LookingAtUI(_playerCam._lookingAt);
-        }
-    }
+        RaycastHit hit = _playerCam._lookingAt;
+        ItemData itemData = hit.rigidbody.gameObject.GetComponent<Item>().Data;
+        if(_itemUI.activeSelf && _itemName.text == itemData.ItemName) { return; } // do nothing if item we're looking at hasn't changed
 
-    private void NotLookingAtUI()
-    {
-        _itemUI.SetActive(false);
-    }
-
-    private void LookingAtUI(RaycastHit hit)
-    {
         _itemUI.SetActive(true);
-        ItemData itemData = hit.collider.gameObject.GetComponent<Item>().Data;
-
         _itemName.text = itemData.ItemName;
         _itemDesc.text = itemData.Description;
 

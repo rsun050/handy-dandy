@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Test Sphere
   Description: Test sphere, do not use
-  Tags: 04000000
+  Tags: 0300000002000000
   Weight: 9999
+  IsInventoryItem: 0
+  CanDrop: 0

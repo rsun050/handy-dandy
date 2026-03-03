@@ -5,4 +5,6 @@ public enum InventoryItemTag { Hand };
 public class InventoryItemData : ScriptableObject
 {
 	public float Inventory;
+	public ItemTag[] FitsItemsOfType;
+
 }
