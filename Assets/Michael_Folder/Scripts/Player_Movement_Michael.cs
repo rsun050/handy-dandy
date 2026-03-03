@@ -12,6 +12,8 @@ public class Player_Movement_Michael : MonoBehaviour
     [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
 
+    [SerializeField] private Player_Anim_Script playerAnimScript;
+
     private Vector3 velocity;
     private bool isGrounded;
 
@@ -29,6 +31,18 @@ public class Player_Movement_Michael : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
+
+        if (playerAnimScript.gameObject.activeSelf)
+        {
+            if (move == Vector3.zero)
+            {
+                playerAnimScript.Enable_Idle_Animation();
+            }
+            else
+            {
+                playerAnimScript.Enable_Walk_Animation();
+            }
+        } 
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {

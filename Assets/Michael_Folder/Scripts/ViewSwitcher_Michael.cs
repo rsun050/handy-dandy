@@ -4,16 +4,11 @@ public class ViewSwitcher_Michael : MonoBehaviour
 {
     public Transform mainCamera;     
     public Transform fpAnchor;      
-    public Transform tpAnchor;       
+    public Transform tpAnchor;
 
-    public MeshRenderer playerMesh;
+    [SerializeField] private GameObject playerMesh;
 
     private bool isFirstPerson = true;
-
-    private void Start()
-    {
-        playerMesh.enabled = false;
-    }
 
     private void Update()
     {
@@ -24,12 +19,12 @@ public class ViewSwitcher_Michael : MonoBehaviour
             if (isFirstPerson)
             {
                 mainCamera.position = fpAnchor.position;
-                playerMesh.enabled = false;
+                playerMesh.SetActive(false);
             }
             else
             {
                 mainCamera.position = tpAnchor.position;
-                playerMesh.enabled = true;
+                playerMesh.SetActive(true);
             }
         }
     }

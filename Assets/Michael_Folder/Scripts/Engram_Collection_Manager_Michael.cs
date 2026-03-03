@@ -70,7 +70,10 @@ public class Engram_Collection_Manager_Michael : MonoBehaviour
     public void ReturnToPool(GameObject incomingEngram)
     {
         string currentWeaponName = incomingEngram.GetComponent<Engram_Prefab_Data_Michael>().Get_WeaponName();
-        Debug.Log("You picked up " + currentWeaponName);
+        //Debug.Log("You picked up " + currentWeaponName);
+        Pick_Up_Item_UI_Manager.Instance.SetText("You picked up " + currentWeaponName);
+        Pick_Up_Item_UI_Manager.Instance.Show_Screen();
+        Pick_Up_Item_UI_Manager.Instance.Start_Timer();
         incomingEngram.SetActive(false);
         incomingEngram.transform.localPosition = Vector3.zero;
         incomingEngram.GetComponent<Engram_Prefab_Data_Michael>().Set_WeaponName(null);
