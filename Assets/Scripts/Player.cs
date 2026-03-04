@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerCam _playerCam;
 
     [Header("Inventory")]
-    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] public InventoryManager _inventoryManager;
 
     // Start is called before the first frame update
     void Start()

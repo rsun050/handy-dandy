@@ -8,8 +8,14 @@ public class InventoryManager : MonoBehaviour
 	private InventoryItem _activeInventoryItem; // guaranteed to have an _activeInventoryItem; if this is ever not true we messed up
 	[SerializeField] private List<InventoryItem> _inventoryItems; // first two should always be Hand (L) and Hand (R)
 	
+	public event Action<int> SwitchActiveE;
+
 	private void Awake() {
 		_activeInventoryItem = _inventoryItems[0];
+	}
+
+	private void Start()
+	{
 	}
 	private void Update()
 	{
@@ -17,7 +23,9 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	public void SwitchActive() {
-		_activeInventoryItem = (_activeInventoryItem == _inventoryItems[0]) ? _inventoryItems[1] : _inventoryItems[0];
+		int newActive = (_activeInventoryItem == _inventoryItems[0]) ? 1 : 0;
+		_activeInventoryItem = _inventoryItems[newActive];
+		SwitchActiveE?.Invoke(newActive);
 	}
 
 	public void PickUp(GameObject obj) {
