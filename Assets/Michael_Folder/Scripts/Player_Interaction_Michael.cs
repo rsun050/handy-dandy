@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Player_Interaction_Michael : MonoBehaviour
 {
+    [SerializeField] private Transform actualCameraTransform;
+
     public float interactionDistance = 3f;
     public LayerMask interactableLayer;
 
@@ -12,7 +14,7 @@ public class Player_Interaction_Michael : MonoBehaviour
     public Image progressCircle;
 
     private float holdTimer = 0f;
-    private float holdDuration = 3f;
+    [SerializeField] private float holdDuration = 1f;
 
     private I_Interactble_Michael currentTarget;
 
@@ -23,7 +25,9 @@ public class Player_Interaction_Michael : MonoBehaviour
 
     private void PerformRaycast()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray ray = new Ray(actualCameraTransform.position, actualCameraTransform.forward);
+        //Ray ray = new Ray(actualCameraTransform.position, actualCameraTransform.forward);
+        //Debug.DrawLine(ray.origin, ray.direction, Color.red, 0.5f);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactionDistance, interactableLayer))

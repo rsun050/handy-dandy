@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -14,8 +15,10 @@ public class Game_Menu_Manager : MonoBehaviour
     [SerializeField] private Button applyChangesButton;
     [SerializeField] private Slider mySlider;
     [SerializeField] private CanvasGroup openScreenText;
+    [SerializeField] private CanvasGroup confirmationTextCanvasGroup;
 
     private bool myToggle = false;
+    private bool isConfirmationTextShowing = false;
 
     private void Awake()
     {
@@ -81,5 +84,29 @@ public class Game_Menu_Manager : MonoBehaviour
     public void Apply_Changes_Button()
     {
         mouseLook_Script.Set_Mouse_Sensitivity(mySlider.value * 10);
+
+        if(isConfirmationTextShowing == false)
+        {
+            StartCoroutine(Confirmation_Text_Timer());
+        }
+        else
+        {
+            Debug.Log("Confirmation text already showing");
+        }
+    }
+
+    IEnumerator Confirmation_Text_Timer()
+    {
+        isConfirmationTextShowing = true;
+        confirmationTextCanvasGroup.alpha = 1;
+        confirmationTextCanvasGroup.interactable = true;
+        confirmationTextCanvasGroup.blocksRaycasts = true;
+
+        yield return new WaitForSeconds(3f);
+
+        confirmationTextCanvasGroup.alpha = 0;
+        confirmationTextCanvasGroup.interactable = false;
+        confirmationTextCanvasGroup.blocksRaycasts = false;
+        isConfirmationTextShowing = false;
     }
 }
