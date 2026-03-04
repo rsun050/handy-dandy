@@ -1,9 +1,11 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
+    public static GameObject Player { get; private set; }
 
     [Header("Item UI")]
     [SerializeField] private GameObject _itemUI;
@@ -18,6 +20,8 @@ public class GameController : MonoBehaviour
 			Destroy(this); return;
 		}
 		Instance = this;
+
+        Player = GameObject.FindWithTag("Player");
     }
 
     // Start is called before the first frame update

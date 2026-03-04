@@ -91,6 +91,10 @@ public class Player : MonoBehaviour
         {
             DropItem();
         }
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            _inventoryManager.SwitchActive();
+        }
     }
 
     private void GroundCheck()
@@ -134,6 +138,6 @@ public class Player : MonoBehaviour
     // WIP
     private void DropItem()
     {
-        // _inventoryManager.Drop();
+        _inventoryManager.Drop();
     }
 }

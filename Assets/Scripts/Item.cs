@@ -9,11 +9,11 @@ public class Item : MonoBehaviour
         gameObject.SetActive(false); // vanishes
     }
 
-    public void Drop()
-    {
-        if(Data.CanDrop)
-        {
-            gameObject.SetActive(true); // vanishes
+    public void Drop(Vector3 atPosition) {
+        transform.position = atPosition;
+
+        if(Data.CanDrop) {
+            gameObject.SetActive(true); // reappears
         }
     }
 }
