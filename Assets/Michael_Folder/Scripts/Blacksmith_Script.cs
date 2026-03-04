@@ -19,7 +19,7 @@ public class Blacksmith_Script : MonoBehaviour, I_Interactble_Michael
         Debug.Log("Yippie you talked to the Blacksmith!");
         animScript.Enable_Idle_Animation();
 
-        if (Player_Held_Item_Manager.Instance.Get_Item_Count() == 3)
+        if (Player_Held_Item_Manager.Instance.Get_Item_Count() >= 3)
         {
             StartCoroutine(MyRoutine_2());
         }
@@ -31,10 +31,10 @@ public class Blacksmith_Script : MonoBehaviour, I_Interactble_Michael
 
     IEnumerator MyRoutine_2()
     {
-        NPC_Dialouge_Screen_Script.Instance.Show_Screen();
-        NPC_Dialouge_Screen_Script.Instance.Set_Text("You have exactly enough apples for me. THANK YOU");
-        Player_Held_Item_Manager.Instance.Turn_In_Held_Items();
         playerInteractScript.enabled = false;
+        NPC_Dialouge_Screen_Script.Instance.Show_Screen();
+        NPC_Dialouge_Screen_Script.Instance.Set_Text("You have enough apples for me. THANK YOU");
+        Player_Held_Item_Manager.Instance.Turn_In_Held_Items();
         yield return new WaitForSeconds(3f);
         NPC_Dialouge_Screen_Script.Instance.Hide_Screen();
 
@@ -52,7 +52,7 @@ public class Blacksmith_Script : MonoBehaviour, I_Interactble_Michael
         {
             NPC_Dialouge_Screen_Script.Instance.Show_Screen();
             NPC_Dialouge_Screen_Script.Instance.Set_Text(dialougeOptions[index]);
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(3f);
             NPC_Dialouge_Screen_Script.Instance.Hide_Screen();
             index++;
         }
