@@ -49,6 +49,7 @@ public class Player_Held_Item_Manager : MonoBehaviour
     public void Update_Your_Item_Count()
     {
         amountOfItems = heldItemTransform.childCount;
+        Debug.Log(amountOfItems);
 
         if(amountOfItems == 0)
         {
@@ -72,6 +73,7 @@ public class Player_Held_Item_Manager : MonoBehaviour
             Destroy(heldItemTransform.GetChild(i).gameObject);
         }
 
+        Debug.Log("Destoryed items");
         Update_Your_Item_Count();
     }
 }
