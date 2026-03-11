@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30ada87089bcd9d478bc2c7b331914d8, type: 3}
-  m_Name: Nonpickupable
+  m_Script: {fileID: 11500000, guid: d32c1a22c1157414c8437d30f4a74d9f, type: 3}
+  m_Name: TEST_ITEM
   m_EditorClassIdentifier: 
   ItemName: 
-  Description: how did you get this
-  Tags: 
-  Weight: 0
+  Description: 
+  Tags: 05000000
+  Weight: 9999
+  IsInventoryItem: 0
+  CanDrop: 0

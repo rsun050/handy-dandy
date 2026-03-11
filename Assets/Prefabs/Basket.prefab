@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: c023a4f6633f71b46a0cfaf4db372a82, type: 2}
   <_invData>k__BackingField: {fileID: 11400000, guid: 3365a8bd52a97254882780a52165ef67, type: 2}
+  <_roomRemaining>k__BackingField: 0
 --- !u!23 &1802469882578116146
 MeshRenderer:
   m_ObjectHideFlags: 0

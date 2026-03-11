@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cfa6057aec975c47b235328c0b32bf3, type: 3}
-  m_Name: Hand_I
+  m_Script: {fileID: 11500000, guid: d32c1a22c1157414c8437d30f4a74d9f, type: 3}
+  m_Name: Ghastly Pie
   m_EditorClassIdentifier: 
-  Inventory: 1
-  FitsItemsOfType: 0000000001000000
+  ItemName: Ghastly Pie
+  Description: A terrible pie. Guaranteed to k*ll anything that eats it
+  Tags: 01000000
+  Weight: 1
+  IsInventoryItem: 0
+  CanDrop: 1
