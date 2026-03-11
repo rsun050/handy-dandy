@@ -9,14 +9,21 @@ public class Player_Interaction_Michael : MonoBehaviour
     public float interactionDistance = 3f;
     public LayerMask interactableLayer;
 
-    public GameObject interactionUI;
-    public TextMeshProUGUI interactionText;
-    public Image progressCircle;
+    private GameObject interactionUI;
+    private TextMeshProUGUI interactionText;
+    private Image progressCircle;
 
     private float holdTimer = 0f;
     [SerializeField] private float holdDuration = 1f;
 
     private I_Interactble_Michael currentTarget;
+
+    private void Start()
+    {
+        interactionUI = Interaction_UI_Script.Instance.Get_UI();
+        interactionText = Interaction_UI_Script.Instance.Get_Text();
+        progressCircle = Interaction_UI_Script.Instance.Get_Image();
+    }
 
     void Update()
     {
