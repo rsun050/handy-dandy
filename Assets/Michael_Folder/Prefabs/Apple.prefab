@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2960537974768183574}
   - component: {fileID: 2472110867995361095}
-  - component: {fileID: 1306419357133969968}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Apple
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,20 +61,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1306419357133969968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 140499163534294700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28480a8821e4d6d4c99c0f0a9b9bf1de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myTransform: {fileID: 2960537974768183574}
-  itemData: {fileID: 11400000, guid: 2e9d290865251e74a9332346cc0c3e86, type: 2}
 --- !u!1 &3413064482104344182
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myTransform: {fileID: 2960537974768183574}
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: 2e9d290865251e74a9332346cc0c3e86, type: 2}
 --- !u!1001 &2373451876461549696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,6 +184,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e1b1889d6e0748f468f6b368efc24a36, type: 3}
       propertyPath: m_Name
       value: Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e1b1889d6e0748f468f6b368efc24a36, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

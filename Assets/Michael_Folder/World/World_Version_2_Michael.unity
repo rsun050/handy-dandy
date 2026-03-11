@@ -9895,6 +9895,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apple
       objectReference: {fileID: 0}
+    - target: {fileID: 140499163534294700, guid: a6bd704e3b8f91f4796d127ba5473681, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 140499163534294700, guid: a6bd704e3b8f91f4796d127ba5473681, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     - target: {fileID: 2960537974768183574, guid: a6bd704e3b8f91f4796d127ba5473681, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.69
@@ -9934,6 +9942,10 @@ PrefabInstance:
     - target: {fileID: 2960537974768183574, guid: a6bd704e3b8f91f4796d127ba5473681, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3184423417524037073, guid: a6bd704e3b8f91f4796d127ba5473681, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
