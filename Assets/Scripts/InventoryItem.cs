@@ -158,6 +158,8 @@ public class InventoryItem : Item {
 
         if(this.HasRoom(itemData, 1)) {
             InventoryItem invItem = this.DeepestInventoryItemThatCanHold(itemData).Item1;
+            s += $"\nDeepest inv item that could hold item was {invItem.Data.ItemName}";
+
             invItem._AddItemToSelf(item);
             Debug.Log(s + "\nSuccess");
             return true;
@@ -305,7 +307,8 @@ public class InventoryItem : Item {
     }
 
     private bool RemoveFromInsertedOrder(Item itemToDelete, int index, bool destroy = false) {
-        if(_itemInsertedOrder[index] != itemToDelete.gameObject) {
+        print($"RemoveFromInsertedOrder: received index {index}");
+        if(index >= _itemInsertedOrder.Count || _itemInsertedOrder[index] != itemToDelete.gameObject) {
             // item not present in this gameobject, in held inventory item
             foreach(GameObject obj in _itemInsertedOrder) {
                 InventoryItem invItem = obj.GetComponent<InventoryItem>();
@@ -429,7 +432,8 @@ public class InventoryItem : Item {
 
     public string Print(string prefix = "", string suffix = "", bool print = false, int tabs = 0)
     {
-        if(tabs != 0) { return new string('\t', tabs) + gameObject.name + ","; }
+        // Debug.Log($"InvItem {gameObject.name} printing self");
+        // if(tabs != 0) { return new string('\t', tabs) + gameObject.name + ","; }
         string s = "{ ";
         string children = "";
         foreach(KeyValuePair<ItemData, List<GameObject>> entry in _items)
@@ -437,9 +441,8 @@ public class InventoryItem : Item {
             if(!entry.Key.IsInventoryItem) {
                 s += entry.Key.ItemName + " : " + entry.Value.Count.ToString() + ", ";                
             } else {
-                foreach(GameObject obj in entry.Value)
-                {
-                    children += obj.GetComponent<InventoryItem>().Print(new string('\t', tabs + 1), "\n", false, tabs + 1);
+                foreach(GameObject obj in entry.Value) {
+                    children += obj.GetComponent<InventoryItem>().Print(prefix, "\n", false, tabs + 1);
                 }
             }
         }
@@ -455,6 +458,8 @@ public class InventoryItem : Item {
         if(print) {
             Debug.Log(prefix + s + suffix);
         }
-        return(prefix + s + suffix);
+
+        if(tabs != 0) return new string('\t', tabs) + gameObject.name + "," + s + suffix;
+        else return(prefix + s + suffix);
     }
 }

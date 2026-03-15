@@ -38,7 +38,6 @@ public class InventoryManager : MonoBehaviour
 
 	public bool PickUp(GameObject obj) {
 		Item newItem = obj.GetComponent<Item>();
-		InventoryItem newInvItem = obj.GetComponent<InventoryItem>();
 
 		bool firstItem = false;
 
@@ -49,12 +48,12 @@ public class InventoryManager : MonoBehaviour
 
 			if(_activeInventoryItem.AddInventoryItem(newItem)) { // try to insert in active inventory item
 				newItem.PickUp();
-				// _inventoryItems.Add(newInvItem);
 
 				if(firstItem) {
 					UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, newItem.Data);
 				}
 
+				DebugView.Instance.DebugUpdate();
 				return true;
 			} else { // try all others
 				foreach(InventoryItem invItem in _inventoryItems) {
@@ -63,11 +62,11 @@ public class InventoryManager : MonoBehaviour
 
 					if(invItem != _activeInventoryItem && invItem.AddInventoryItem(newItem)) {
 						newItem.PickUp();
-						// _inventoryItems.Add(newInvItem);
 
 						if(firstItem)
-							UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, newItem.Data);
+							UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Right : Hand.Left, newItem.Data);
 	
+						DebugView.Instance.DebugUpdate();
 						return true;
 					}
 				}
@@ -81,6 +80,8 @@ public class InventoryManager : MonoBehaviour
 				if(firstItem) {
 					UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, newItem.Data);
 				}
+
+				DebugView.Instance.DebugUpdate();
 				return true;
 			} else { // try all others
 				foreach(InventoryItem invItem in _inventoryItems) {
@@ -90,8 +91,9 @@ public class InventoryManager : MonoBehaviour
 					if(invItem != _activeInventoryItem && invItem.AddItem(newItem)) {
 						newItem.PickUp();
 						if(firstItem)
-							UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, newItem.Data);
+							UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Right : Hand.Left, newItem.Data);
 
+						DebugView.Instance.DebugUpdate();
 						return true;
 					}
 				}
@@ -107,6 +109,7 @@ public class InventoryManager : MonoBehaviour
 		if(_activeInventoryItem._roomRemaining == _activeInventoryItem._invData.Inventory) { // removed last item
 			UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, null);
 		}
+		DebugView.Instance.DebugUpdate();
 	}
 
 	// check all inventory items for item

@@ -75,7 +75,7 @@ public class UIController : MonoBehaviour
         _itemTags.text = tags;
     }
     public void SwitchHeldItem(Hand hand, ItemData item) {
-        Debug.Log("switching held item image");
+        // Debug.Log("switching held item image");
         UnityEngine.UI.Image handRenderer = null;
         switch(hand) {
             case Hand.Left:
@@ -91,22 +91,23 @@ public class UIController : MonoBehaviour
         } else {
             handRenderer.gameObject.SetActive(true);
             handRenderer.sprite = item.heldSprite;
+            handRenderer.SetNativeSize();
         }
     }
 
     private void SwitchActiveUI(int whichIsNowActive) {
-        Debug.Log($"adjusting UI: {whichIsNowActive} is now active");
+        // Debug.Log($"adjusting UI: {whichIsNowActive} is now active");
         RectTransform lTransform = _leftInventory.GetComponent<RectTransform>();
         RectTransform rTransform = _rightInventory.GetComponent<RectTransform>();
 
         switch(whichIsNowActive) {
             case 0: // left is now active
-                lTransform.anchoredPosition = new Vector3(lTransform.anchoredPosition.x, lTransform.anchoredPosition.y + 35);
-                rTransform.anchoredPosition = new Vector3(rTransform.anchoredPosition.x, rTransform.anchoredPosition.y - 35);
+                lTransform.anchoredPosition = new Vector3(lTransform.anchoredPosition.x, lTransform.anchoredPosition.y + 70);
+                rTransform.anchoredPosition = new Vector3(rTransform.anchoredPosition.x, rTransform.anchoredPosition.y - 70);
                 break;
             case 1: // right is now active
-                lTransform.anchoredPosition = new Vector3(lTransform.anchoredPosition.x, lTransform.anchoredPosition.y - 35);
-                rTransform.anchoredPosition = new Vector3(rTransform.anchoredPosition.x, rTransform.anchoredPosition.y + 35);
+                lTransform.anchoredPosition = new Vector3(lTransform.anchoredPosition.x, lTransform.anchoredPosition.y - 70);
+                rTransform.anchoredPosition = new Vector3(rTransform.anchoredPosition.x, rTransform.anchoredPosition.y + 70);
                 break;
         }
     }
