@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum NPCState { NotMet, QuestIP, QuestComplete };
 public class NPC : MonoBehaviour
 {
-	private NPCData npcData;
-	private NPCState npcState;
+	[SerializeField] private NPCData npcData;
+	private int quest = -1;
 	
-	private QuestData[] quests;
-	private DialogueFragment[] questStartDialogues;
-	private DialogueFragment[] questIPDialogues;
-	private DialogueFragment[] questCompleteDialogues;
-	private DialogueFragment[] greetings;
+	[SerializeField] private QuestData[] quests;
+	[SerializeField] private DialogueFragment[] questStartDialogues; // accept a quest
+	[SerializeField] private DialogueFragment[] questIPDialogues; // quest active but not complete
+	[SerializeField] private DialogueFragment[] questCompleteDialogues; // quest completed
+	[SerializeField] private DialogueFragment[] greetings; // miscellaneous dialogue, unimportant
 	private void Awake()
 	{
 		
@@ -24,7 +23,15 @@ public class NPC : MonoBehaviour
 
 	public void Interact()
 	{
-		
+		// all quests exhausted
+		if(quest >= quests.Length) {
+			if(greetings.Length > 0)
+			{
+				
+			}
+		}
+		if(quest < 0) {
+			
+		}
 	}
-
 }

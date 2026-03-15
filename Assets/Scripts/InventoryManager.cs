@@ -5,17 +5,24 @@ using UnityEngine;
 public enum InventoryStatus { None, TwoHanding };
 public class InventoryManager : MonoBehaviour
 {
+	public static InventoryManager Instance { get; private set; }
 	private InventoryItem _activeInventoryItem; // guaranteed to have an _activeInventoryItem; if this is ever not true we messed up
 	[SerializeField] private List<InventoryItem> _inventoryItems; // first two should always be Hand (L) and Hand (R)
 	
 	public event Action<int> SwitchActiveE;
 
 	private void Awake() {
+		if(Instance != null && Instance != this) {
+			Destroy(this); return;
+		}
+		Instance = this;
+
 		_activeInventoryItem = _inventoryItems[0];
 	}
 
 	private void Start()
 	{
+		
 	}
 	private void Update()
 	{
@@ -97,17 +104,17 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	// remove a number of items (sourced from all inventory items, focuses on active inventory item first)
-	private bool Remove(ItemData itemData, int quantity) {
+	public bool Remove(ItemData itemData, int quantity, bool destroy = false) {
 		if(Has(itemData, quantity)) {
 			int remainingToRemove = quantity;
 
-			int numRemoved = _activeInventoryItem.Remove(itemData, remainingToRemove);
+			int numRemoved = _activeInventoryItem.Remove(itemData, remainingToRemove, destroy);
 			remainingToRemove -= numRemoved;
 			while(remainingToRemove > 0) {
 				foreach(InventoryItem invItem in _inventoryItems) {
 					if(invItem == _activeInventoryItem) continue;
 
-					numRemoved = invItem.Remove(itemData, remainingToRemove);
+					numRemoved = invItem.Remove(itemData, remainingToRemove, destroy);
 					remainingToRemove -= numRemoved;
 				}
 			}

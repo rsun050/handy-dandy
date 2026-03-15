@@ -3,6 +3,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
+    public bool _canMove;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _moveDrag;
 
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
+        _canMove = true;
         _readyToJump = true;
     }
 

@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -18,6 +17,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image _leftInventory;
     [SerializeField] private UnityEngine.UI.Image _rightInventory;
 
+    [Header("Quest UI")]
+    [SerializeField] private TMP_Text _questUI;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -34,6 +36,8 @@ public class UIController : MonoBehaviour
         Player.GetComponent<Player>()._inventoryManager.SwitchActiveE += SwitchActiveUI;
 
         _itemUI.SetActive(false);
+
+        QuestManager.Instance.newQuestReceivedE += SwitchQuestUI;
     }
 
     // Update is called once per frame
@@ -80,5 +84,11 @@ public class UIController : MonoBehaviour
                 rTransform.anchoredPosition = new Vector3(rTransform.anchoredPosition.x, rTransform.anchoredPosition.y + 35);
                 break;
         }
+    }
+
+    private void SwitchQuestUI()
+    {
+        QuestData questData = QuestManager.Instance._currentQuest;
+        _questUI.text = "Current Quest: " + questData.QuestName + "\n" + questData.QuestDesc;
     }
 }

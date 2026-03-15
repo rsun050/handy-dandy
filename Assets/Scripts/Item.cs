@@ -9,11 +9,15 @@ public class Item : MonoBehaviour
         gameObject.SetActive(false); // vanishes
     }
 
-    public void Drop(Vector3 atPosition) {
-        transform.position = atPosition;
-
+    // drop at pos with starting velocity, or destroy the gameobject outright
+    public void Drop(Vector3 atPosition, bool destroy, Vector3? velocity = null) {
         if(Data.CanDrop) {
-            gameObject.SetActive(true); // reappears
+            if(destroy) {
+                Destroy(this.gameObject);
+            } else {
+                transform.position = atPosition;
+                gameObject.SetActive(true); // reappears                
+            }
         }
     }
 }

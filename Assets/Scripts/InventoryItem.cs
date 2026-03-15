@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using UnityEngine;
 
 public class InventoryItem : Item {
@@ -229,8 +227,13 @@ public class InventoryItem : Item {
         return qty;
     }
 
+    private Vector3 playerpos()
+    {
+        return GameController.Player.transform.position + Vector3.up + Vector3.forward;
+    }
+
     // does not check if itemData is removable. if qty == -1, removes all instances
-    private int _Remove(ItemData itemData, bool self = true, int qty = -1) {
+    private int _Remove(ItemData itemData, bool self = true, bool destroy = false, int qty = -1) {
         if(!_quantities.ContainsKey(itemData)) return 0;
 
         if(self) {
@@ -246,7 +249,7 @@ public class InventoryItem : Item {
                     }
                 }
                 foreach(GameObject obj in _items[itemData]) { // drop all items of type
-                    obj.GetComponent<Item>().Drop(GameController.Player.transform.position);
+                    obj.GetComponent<Item>().Drop(GameController.Player.transform.position + Vector3.up, destroy);
                 }
                 
                 _items.Remove(itemData); // remove the dictionary holding this type of item, since it's now empty
@@ -268,7 +271,7 @@ public class InventoryItem : Item {
                                 break;
                             }
                         }
-                        _itemInsertedOrder[i].GetComponent<Item>().Drop(GameController.Player.transform.position); // drop the gameobject
+                        _itemInsertedOrder[i].GetComponent<Item>().Drop(GameController.Player.transform.position + Vector3.up, destroy); // drop the gameobject
 
                         _itemInsertedOrder.RemoveAt(i);                        
                         i++;
@@ -283,14 +286,15 @@ public class InventoryItem : Item {
             return 0;
         }
     }
-    public int Remove(ItemData itemData, int qtyToRemove) {
+    public int Remove(ItemData itemData, int qtyToRemove, bool destroy = false) {
         if(!itemData.CanDrop) return 0;
         int hasQty = this.Quantity(itemData);
         int totalRemoved = 0;
 
         while(hasQty > 0 && qtyToRemove > 0) {
             InventoryItem invItem = this.DeepestInventoryItemThatHas(itemData).Item1;
-            int numRemoved = invItem._Remove(itemData);
+            int amtHeld = invItem.Quantity(itemData, true);
+            int numRemoved = invItem._Remove(itemData, true, destroy, Math.Max(amtHeld, qtyToRemove));
 
             hasQty -= numRemoved;
             qtyToRemove -= numRemoved;
@@ -300,7 +304,7 @@ public class InventoryItem : Item {
         return totalRemoved;
     }
 
-    public void RemoveMostRecent() {
+    public void RemoveMostRecent(bool destroy = false) {
         for(int i = _itemInsertedOrder.Count - 1; i >= 0; i--) {
             if(_itemInsertedOrder[i].GetComponent<Item>().Data.CanDrop) {
                 Item item = _itemInsertedOrder[i].GetComponent<Item>();
@@ -323,7 +327,7 @@ public class InventoryItem : Item {
                 }
 
                 _itemInsertedOrder.RemoveAt(i);
-                item.Drop(GameController.Player.transform.position);
+                item.Drop(GameController.Player.transform.position + Vector3.up, destroy);
                 break;
             }
         }
