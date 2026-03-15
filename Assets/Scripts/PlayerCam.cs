@@ -10,6 +10,7 @@ public class PlayerCam : MonoBehaviour
 
     public RaycastHit _lookingAt;
     private const int itemLayer = 7;
+    private const int NPCLayer = 8;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,6 @@ public class PlayerCam : MonoBehaviour
 
     private void Look()
     {
-        Physics.Raycast(transform.position, transform.forward, out _lookingAt, 10f, 1 << itemLayer);
+        Physics.Raycast(transform.position, transform.forward, out _lookingAt, 10f, (1 << itemLayer) + (1 << NPCLayer));
     }
 }

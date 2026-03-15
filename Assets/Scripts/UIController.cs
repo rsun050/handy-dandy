@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+public enum Hand { Left, Right };
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
@@ -14,8 +15,10 @@ public class UIController : MonoBehaviour
 
     [Header("Inventory UI")]
     [SerializeField] private GameObject _inventoryUI;
-    [SerializeField] private UnityEngine.UI.Image _leftInventory;
-    [SerializeField] private UnityEngine.UI.Image _rightInventory;
+    [SerializeField] private GameObject _leftInventory;
+    [SerializeField] private GameObject _rightInventory;
+    [SerializeField] private UnityEngine.UI.Image _leftHeld;
+    [SerializeField] private UnityEngine.UI.Image _rightHeld;
 
     [Header("Quest UI")]
     [SerializeField] private TMP_Text _questUI;
@@ -27,6 +30,9 @@ public class UIController : MonoBehaviour
 			Destroy(this); return;
 		}
 		Instance = this;
+
+        SwitchHeldItem(Hand.Left, null);
+        SwitchHeldItem(Hand.Right, null);
     }
 
     // Start is called before the first frame update
@@ -67,6 +73,25 @@ public class UIController : MonoBehaviour
         if(tags != "") { tags = tags.Substring(0, tags.Length - 2); } // remove last comma
 
         _itemTags.text = tags;
+    }
+    public void SwitchHeldItem(Hand hand, ItemData item) {
+        Debug.Log("switching held item image");
+        UnityEngine.UI.Image handRenderer = null;
+        switch(hand) {
+            case Hand.Left:
+                handRenderer = _leftHeld;
+                break;
+            case Hand.Right:
+                handRenderer = _rightHeld;
+                break;
+        }
+
+        if(item == null) {
+            handRenderer.gameObject.SetActive(false);
+        } else {
+            handRenderer.gameObject.SetActive(true);
+            handRenderer.sprite = item.heldSprite;
+        }
     }
 
     private void SwitchActiveUI(int whichIsNowActive) {

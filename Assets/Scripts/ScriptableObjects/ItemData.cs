@@ -12,5 +12,6 @@ public class ItemData : ScriptableObject
     public bool IsInventoryItem;
     public bool CanDrop;
     public GameObject Prefab;
+    public Sprite heldSprite;
 
 }

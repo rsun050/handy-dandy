@@ -27,8 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] public InventoryManager _inventoryManager;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -37,75 +36,66 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         GroundCheck();
-        GetInputs();
+        if(_canMove) {
+            GetInputs();        
+        }
         ClampSpeed();
 
         rb.drag = (_isGrounded) ? _moveDrag : (_moveDrag * 0.8f);
     }
 
-    void FixedUpdate()
-    {
-        Move();
+    void FixedUpdate() {
+        if(_canMove) {
+            Move();        
+        }
     }
 
-    void OnDrawGizmos()
-    {
+    void OnDrawGizmos() {
         Gizmos.color = Color.blue;
         
         // grounding ray
         Gizmos.DrawRay(transform.position, Vector3.down * (_playerHeight * 0.5f + 0.2f));
     }
 
-    private void Move()
-    {
+    private void Move() {
         // calc move direction (vec3): walk in the direction the player is looking
         moveDirection = (orientation.forward * verticalInput) + (orientation.right * horizontalInput);
 
-        if(_isGrounded)
-        {
+        if(_isGrounded) {
             rb.AddForce(moveDirection.normalized * _moveSpeed * 10f, ForceMode.Force);        
-        } else
-        {
+        } else {
             rb.AddForce(moveDirection.normalized * _moveSpeed * 10f * _airMultiplier, ForceMode.Force);        
         }
     }
 
-    private void GetInputs()
-    {
+    private void GetInputs() {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetKey(KeyCode.Space) && _readyToJump && _isGrounded)
-        {
+        if(Input.GetKey(KeyCode.Space) && _readyToJump && _isGrounded) {
             _readyToJump = false;
             Jump();
             Invoke(nameof(ResetJump), _jumpCooldown);
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
-        {
+        if(Input.GetKeyDown(KeyCode.E)) {
             Interact();
         }
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
+        if(Input.GetKeyDown(KeyCode.Q)) {
             DropItem();
         }
-        if(Input.GetKeyDown(KeyCode.X))
-        {
+        if(Input.GetKeyDown(KeyCode.X)) {
             _inventoryManager.SwitchActive();
         }
     }
 
-    private void GroundCheck()
-    {
+    private void GroundCheck() {
         _isGrounded = Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.3f, _groundMask);
     }
 
-    private void ClampSpeed()
-    {
+    private void ClampSpeed() {
         Vector3 actualSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
         if(actualSpeed.magnitude > _moveSpeed) // clamp
@@ -115,31 +105,31 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Jump()
-    {
+    private void Jump() {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * _jumpPower, ForceMode.Impulse);
     }
 
-    private void ResetJump()
-    {
+    private void ResetJump() {
         _readyToJump = true;
     }
 
-    private void Interact()
-    {
+    private void Interact() {
         if(_playerCam._lookingAt.rigidbody == null) { return; }
 
         GameObject playerCamLooking = _playerCam._lookingAt.rigidbody.gameObject;
         if(playerCamLooking.CompareTag("Item"))
         {
             _inventoryManager.PickUp(playerCamLooking);
+        } else if(playerCamLooking.CompareTag("NPC")) {
+            Debug.Log("fuck");
+            NPC npc = playerCamLooking.GetComponent<NPC>();
+            npc.Interact();
         }
     }
 
     // WIP
-    private void DropItem()
-    {
+    private void DropItem() {
         _inventoryManager.Drop();
     }
 }

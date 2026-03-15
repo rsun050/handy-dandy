@@ -7,6 +7,8 @@ TagManager:
   - Item
   - Debug
   - Monster
+  - Camera
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - Item
-  - 
+  - NPC
   - 
   - 
   - 

@@ -19,3 +19,4 @@ MonoBehaviour:
   IsInventoryItem: 0
   CanDrop: 1
   Prefab: {fileID: 7297313703528064131, guid: 7e3a1912ce2170b4aac3b897057d90a1, type: 3}
+  heldSprite: {fileID: 21300000, guid: a17a846285915854d835d6b1ce418492, type: 3}
