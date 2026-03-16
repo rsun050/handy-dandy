@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89feb608239c0e242b3c15dae686f155, type: 3}
   m_Name: SmithDefault2
   m_EditorClassIdentifier: 
-  nextFragments: []
+  nextFragments:
+  - {fileID: 0}
   dialogue:
   - I don't have anything else for you to do.
   playerOptions: []

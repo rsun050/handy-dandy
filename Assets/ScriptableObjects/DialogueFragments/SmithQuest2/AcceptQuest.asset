@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9a7d2955439274692d8100c2be87b1, type: 3}
   m_Name: AcceptQuest
   m_EditorClassIdentifier: 
-  nextFragments: []
+  nextFragments:
+  - {fileID: 0}
   quest: {fileID: 11400000, guid: de673bbfdf728984da07f6593242cb58, type: 2}
   action: 1
