@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BUILD 1.unity
     guid: f04fd109d3fd389489431fcefba57d16
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ruth.unity
     guid: 918b6802e11b8bc4c8100c3df6fc8e08
-  - enabled: 1
+  - enabled: 0
     path: Assets/Michael_Folder/World/World_Version_2_Michael.unity
     guid: 23e30b8c32671f947b283c46366a970b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Michael_Folder/World/Monster_Scene_Michael.unity
     guid: 20020202526eda94aaf289e68df7177b
   m_configObjects: {}
