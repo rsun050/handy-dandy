@@ -15,15 +15,12 @@ public class Monster : MonoBehaviour
 
 	private bool canKill = false;
 
-	public void Start() {
-		DialogueManager.Instance.dialogueEndE += Kill;
-	}
-
 	public void Interact() {
 		canKill = false;
 		for(int i = 0; i < itemsOfInterest.Length; i++) {
 			if(InventoryManager.Instance.Has(itemsOfInterest[i], 1)) {
 				DialogueManager.Instance.StartDialogue(correspondingDialogues[i]);
+				DialogueManager.Instance.optionChosenE += Kill;
 				audioSource.clip = sfx[i];
 				canKill = true;
 				return;
@@ -35,13 +32,14 @@ public class Monster : MonoBehaviour
 		audioSource.Play();
 	}
 
-	public void Kill() {
-		if(canKill) {
+	private void Kill(Choice choice) {
+		if(canKill && choice == Choice.Affirmative) {
 			// play animation
 			audioSource.Play();
 			StartCoroutine(DeathAnimationAndDestroy("sj001_hurt"));
-			
 		}
+
+		DialogueManager.Instance.optionChosenE -= Kill;
 	}
 
 	IEnumerator DeathAnimationAndDestroy(string clipName) {

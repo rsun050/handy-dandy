@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
+public enum Choice { Negative, Affirmative };
 public class DialogueManager : MonoBehaviour
 {
 	public static DialogueManager Instance { get; private set; }
@@ -17,7 +18,7 @@ public class DialogueManager : MonoBehaviour
 	[SerializeField] private UnityEngine.UI.Button[] _dialogueOptions;
 
 	public event Action toggleCamLockE;
-	public event Action dialogueEndE;
+	public event Action<Choice> optionChosenE;
 
 	private void Awake() {
 		if(Instance != null && Instance != this) {
@@ -26,6 +27,10 @@ public class DialogueManager : MonoBehaviour
 		Instance = this;
 
 		_dialogueUI.SetActive(false);
+	}
+
+	private void Start() {
+		this.optionChosenE += ProcessPlayerChoice;
 	}
 
 	private void Update() {
@@ -132,22 +137,23 @@ public class DialogueManager : MonoBehaviour
 	}
 
 	public void OptionNegative() {
-		_playerPickedOption = 0;
-		ProcessPlayerChoice();
+		optionChosenE?.Invoke(Choice.Negative);
+		// _playerPickedOption = 0;
+		// ProcessPlayerChoice();
 	}
 
-	public void OptionAffirmative()
-	{
-		_playerPickedOption = 1;
-		ProcessPlayerChoice();
+	public void OptionAffirmative() {
+		optionChosenE?.Invoke(Choice.Affirmative);
+		// _playerPickedOption = 1;
+		// ProcessPlayerChoice();
 	}
 
-	public void ProcessPlayerChoice() {
+	public void ProcessPlayerChoice(Choice playerChoice) {
 		// Debug.Log("Processing choice");
 		toggleCamLockE?.Invoke();
 		_showingOptions = false;
 
-		Fragment next_frag = _currentFragment.nextFragments[_playerPickedOption];
+		Fragment next_frag = _currentFragment.nextFragments[(int)playerChoice];
 		ContinueDialogue(next_frag);
 	}
 
@@ -191,7 +197,6 @@ public class DialogueManager : MonoBehaviour
 		_dialogueUI.SetActive(false);
 		_playingDialogueLine = 0;
 		GameController.Player._canMove = true; // RELEASE ME!!!!
-		dialogueEndE?.Invoke();
 	}
 
 	private void NextDialogueLine() {

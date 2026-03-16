@@ -307,7 +307,7 @@ public class InventoryItem : Item {
     }
 
     private bool RemoveFromInsertedOrder(Item itemToDelete, int index, bool destroy = false) {
-        print($"RemoveFromInsertedOrder: received index {index}");
+        // print($"RemoveFromInsertedOrder: received index {index}");
         if(index >= _itemInsertedOrder.Count || _itemInsertedOrder[index] != itemToDelete.gameObject) {
             // item not present in this gameobject, in held inventory item
             foreach(GameObject obj in _itemInsertedOrder) {

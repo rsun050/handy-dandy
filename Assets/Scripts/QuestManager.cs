@@ -37,7 +37,9 @@ public class QuestManager : MonoBehaviour
 
 	private void takeQuestItems() {
 		if(_currentQuest != null) {
+			Debug.Log("taking away the quest items");
 			for(int i = 0; i < _currentQuest.requiredItems.Length; i++) {
+				Debug.Log($"taking away {_currentQuest.requiredQuantities[i]} {_currentQuest.requiredItems[i].ItemName}(s)");
 				InventoryManager.Instance.Remove(_currentQuest.requiredItems[i], _currentQuest.requiredQuantities[i], true);
 			}
 		}

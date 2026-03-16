@@ -3,7 +3,7 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
 	[field: SerializeField] public NPCData npcData { get; private set; }
-	private int quest = -1;
+	private int quest = 0;
 	private bool questIP = false;
 	// private bool isOfferingQuest = false;
 	
@@ -27,7 +27,6 @@ public class NPC : MonoBehaviour
 
 	private void questaccepted(bool accepted) {
 		if(accepted) {
-			quest += 1;
 			questIP = true;
 		}
 		// isOfferingQuest = false;
@@ -57,16 +56,17 @@ public class NPC : MonoBehaviour
 			// Debug.Log("Offering quest");
 			// isOfferingQuest = true;
 			QuestManager.Instance.questAcceptedE += questaccepted;
-			DialogueManager.Instance.StartDialogue(questStartDialogues[quest + 1]);
+			DialogueManager.Instance.StartDialogue(questStartDialogues[quest]);
 		} else { // questIP
 			// quest is in progress: check if the quest is complete
 			if(QuestManager.Instance.questIsComplete()) {
 				// play questCompleteDialogue
 				// Debug.Log("Quest completed");
 
-				questIP = false;
 				QuestManager.Instance.CompleteQuest();
 				DialogueManager.Instance.StartDialogue(questCompleteDialogues[quest]);
+				questIP = false;
+				quest += 1;
 			} else {
 				// Debug.Log("Quest IP, not complete");
 				// play questIPDialogue

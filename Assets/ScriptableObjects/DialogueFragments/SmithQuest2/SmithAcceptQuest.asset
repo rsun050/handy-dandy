@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextFragments:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1ceda1da3f744cc418a63aeef5240b48, type: 2}
   dialogue:
   - Welp
   - You wouldn't happen to be bored would you?
