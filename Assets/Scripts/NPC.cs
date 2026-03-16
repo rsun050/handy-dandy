@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class NPC : MonoBehaviour
-{
+public class NPC : MonoBehaviour, IInteractable {
 	[field: SerializeField] public NPCData npcData { get; private set; }
 	private int quest = 0;
 	private bool questIP = false;
