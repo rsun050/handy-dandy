@@ -43,3 +43,11 @@ Looking back at our original plan, it was okay, but I missed a few small things 
 
 ## Open-Source Assets
 Background Audio [Relaxing Music with Nature Sounds - Waterfall HD](https://www.youtube.com/watch?v=lE6RYpe9IT0&list=RDlE6RYpe9IT0&start_radio=1)
+Some sounds made using [jsfxr](sfxr.me)
+[OlyPoly - Tree model](https://assetstore.unity.com/packages/3d/vegetation/trees/free-low-poly-trees-pack-273724)
+[Render Knight - Fantasy skybox](https://assetstore.unity.com/packages/2d/textures-materials/sky/fantasy-skybox-free-18353)
+[Anastasita3D - Campfire model](https://assetstore.unity.com/packages/3d/props/low-poly-medieval-environment-pack-35-props-314846)
+[StoneSnail - Dragon model & animations](https://assetstore.unity.com/packages/3d/characters/small-red-dragon-52959)
+[Blink - Sword model](https://assetstore.unity.com/packages/3d/props/weapons/free-low-poly-swords-rpg-weapons-198166)
+[Layer Lab - Apple, cake model](https://assetstore.unity.com/packages/3d/props/food/3d-props-adorable-foods-31249)
+[Yodah_the_cat - Basket model](https://assetstore.unity.com/packages/3d/props/food/stylized-bread-serving-279531)
