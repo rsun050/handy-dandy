@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89feb608239c0e242b3c15dae686f155, type: 3}
-  m_Name: SmithQuestCompleted
+  m_Name: SmithAcceptQuest
   m_EditorClassIdentifier: 
   nextFragments:
   - {fileID: 0}
-  - {fileID: 11400000, guid: 5bded1608f5ec9a4d93749c169e36345, type: 2}
+  - {fileID: 0}
   dialogue:
-  - You should probably look into takin' care of that monster by the cave.
+  - Welp
+  - You wouldn't happen to be bored would you?
+  - You wouldn't happen to be bored would you? 'Cause there's a big nasty monster
+    blocking the cave outside of town
+  - And I haven't been able to get any ore in weeks
+  - So it'd be really nice if somebody could get into there for me
   playerOptions:
-  - OK
-  - What monster
+  - That would be nice wouldn't it (No)
+  - That somebody is me (Yes)

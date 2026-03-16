@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Blacksmith
   m_EditorClassIdentifier: 
   NPCName: Blacksmith
+  NPCDesc: Blacksmiths get to hit things with hammers. I wish I was a blacksmith

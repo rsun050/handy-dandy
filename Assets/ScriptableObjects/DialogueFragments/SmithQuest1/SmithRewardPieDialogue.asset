@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89feb608239c0e242b3c15dae686f155, type: 3}
-  m_Name: SmithAcceptQuest
+  m_Name: SmithRewardPieDialogue
   m_EditorClassIdentifier: 
   nextFragments:
   - {fileID: 0}
   dialogue:
-  - You must be new 'round these parts. I'm the village blacksmith, nice to meet
-    you
-  - I got a hankerin' for apples today but I'm too busy to collect them myself
-  - Could you collect five apples for me?
+  - I accidentally baked that with 200ml of laxatives instead of 0.2ml of vanilla
+    extract
+  - So it might actually kill you if you eat that
+  - Just so you know
   playerOptions:
-  - Sure I got nothing better to do
+  - Wow

@@ -21,7 +21,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image _rightHeld;
 
     [Header("Quest UI")]
-    [SerializeField] private TMP_Text _questUI;
+    [SerializeField] private GameObject _questUI;
+    [SerializeField] private TMP_Text _questText;
 
     // Start is called before the first frame update
     private void Awake()
@@ -44,6 +45,8 @@ public class UIController : MonoBehaviour
         _itemUI.SetActive(false);
 
         QuestManager.Instance.newQuestReceivedE += SwitchQuestUI;
+
+        SwitchQuestUI();
     }
 
     // Update is called once per frame
@@ -59,20 +62,39 @@ public class UIController : MonoBehaviour
 
     private void LookingAtUI() {
         RaycastHit hit = _playerCam._lookingAt;
-        ItemData itemData = hit.rigidbody.gameObject.GetComponent<Item>().Data;
-        if(_itemUI.activeSelf && _itemName.text == itemData.ItemName) { return; } // do nothing if item we're looking at hasn't changed
+        if(hit.rigidbody.gameObject.CompareTag("Item")) {
+            ItemData itemData = hit.rigidbody.gameObject.GetComponent<Item>().Data;
+            if(_itemUI.activeSelf && _itemName.text == itemData.ItemName) { return; } // do nothing if item we're looking at hasn't changed
 
-        _itemUI.SetActive(true);
-        _itemName.text = itemData.ItemName;
-        _itemDesc.text = itemData.Description;
+            _itemUI.SetActive(true);
+            _itemName.text = itemData.ItemName;
+            _itemDesc.text = itemData.Description;
 
-        string tags = "";
-        foreach(ItemTag tag in itemData.Tags) {
-            tags += tag.ToString() + ", ";
+            string tags = "";
+            foreach(ItemTag tag in itemData.Tags) {
+                tags += tag.ToString() + ", ";
+            }
+            if(tags != "") { tags = tags.Substring(0, tags.Length - 2); } // remove last comma
+
+            _itemTags.text = tags;
+        } else if(hit.rigidbody.gameObject.CompareTag("NPC")) {
+            NPCData npcData = hit.rigidbody.gameObject.GetComponent<NPC>().npcData;
+
+            if(_itemUI.activeSelf && _itemName.text == npcData.NPCName) { return; }
+            _itemUI.SetActive(true);
+            _itemName.text = npcData.NPCName;
+            _itemDesc.text = npcData.NPCDesc;
+            _itemTags.text = "";
+        } else if(hit.rigidbody.gameObject.CompareTag("Boss")) {
+            NPCData monsterData = hit.rigidbody.gameObject.GetComponent<Monster>().data;
+
+            if(_itemUI.activeSelf && _itemName.text == monsterData.NPCName) { return; }
+            _itemUI.SetActive(true);
+            _itemName.text = monsterData.NPCName;
+            _itemDesc.text = monsterData.NPCDesc;   
+            _itemTags.text = "";
         }
-        if(tags != "") { tags = tags.Substring(0, tags.Length - 2); } // remove last comma
 
-        _itemTags.text = tags;
     }
     public void SwitchHeldItem(Hand hand, ItemData item) {
         // Debug.Log("switching held item image");
@@ -115,6 +137,11 @@ public class UIController : MonoBehaviour
     private void SwitchQuestUI()
     {
         QuestData questData = QuestManager.Instance._currentQuest;
-        _questUI.text = "Current Quest: " + questData.QuestName + "\n" + questData.QuestDesc;
+        if(questData != null) {
+            _questUI.SetActive(true);
+            _questText.text = "Current Quest: " + questData.QuestName + "\n" + questData.QuestDesc;
+        } else {
+            _questUI.SetActive(false);            
+        }
     }
 }

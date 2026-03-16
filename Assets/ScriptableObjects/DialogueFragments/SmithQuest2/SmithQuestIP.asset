@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d2f618cdd2f573428e036c9972e397d, type: 3}
-  m_Name: SmithRewardPie
+  m_Script: {fileID: 11500000, guid: 89feb608239c0e242b3c15dae686f155, type: 3}
+  m_Name: SmithQuestIP
   m_EditorClassIdentifier: 
   nextFragments:
-  - {fileID: 11400000, guid: 250a77e903267f54da53acc36f63f196, type: 2}
-  items:
-  - {fileID: 11400000, guid: 7a866d23875373d40bea7fa516291fae, type: 2}
-  quantityChange: 01000000
+  - {fileID: 0}
+  - {fileID: 11400000, guid: ea18475684f8f0743b6af0ffa5ede30a, type: 2}
+  dialogue:
+  - Gotten into the cave yet?
+  playerOptions:
+  - In time
+  - I could use some help

@@ -4,4 +4,5 @@ using UnityEngine;
 public class NPCData : ScriptableObject
 {
 	public string NPCName;
+	public string NPCDesc;
 }

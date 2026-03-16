@@ -126,7 +126,7 @@ public class InventoryItem : Item {
     // WARNING: does not tag check, assumes item is not an inventory item
     private int _AddItemToSelf(Item item) {
         Debug.Assert(!item.Data.IsInventoryItem);
-        Debug.Log($"{this.Data.ItemName} picked up {item.Data.ItemName}");
+        // Debug.Log($"{this.Data.ItemName} picked up {item.Data.ItemName}");
 
         ItemData itemData = item.Data;
         _roomRemaining -= itemData.Weight;
@@ -161,10 +161,10 @@ public class InventoryItem : Item {
             s += $"\nDeepest inv item that could hold item was {invItem.Data.ItemName}";
 
             invItem._AddItemToSelf(item);
-            Debug.Log(s + "\nSuccess");
+            // Debug.Log(s + "\nSuccess");
             return true;
         }
-        Debug.Log(s + "\nDidn't have room");
+        // Debug.Log(s + "\nDidn't have room");
         return false;
     }
 
@@ -196,10 +196,10 @@ public class InventoryItem : Item {
             InventoryItem invItem = item.gameObject.GetComponent<InventoryItem>();
             invItem.parentInvItem = this;
 
-            Debug.Log(s);
+            // Debug.Log(s);
             return true;
         }
-        Debug.Log(s += $"\ndidn't have room");
+        // Debug.Log(s += $"\ndidn't have room");
         return false;
     }
 
@@ -372,9 +372,9 @@ public class InventoryItem : Item {
 
         if(depth == 0) {
             if(deepestMostRecentRemovableItem != null) {
-                Debug.Log($"IdentifyDeepestMostRecentRemovable: returning {deepestMostRecentRemovableItem.Item1.Data.ItemName} which is held at a depth of {deepestMostRecentRemovableItem.Item3}");                
+                // Debug.Log($"IdentifyDeepestMostRecentRemovable: returning {deepestMostRecentRemovableItem.Item1.Data.ItemName} which is held at a depth of {deepestMostRecentRemovableItem.Item3}");                
             } else {
-                Debug.Log($"IdentifyDeepestMostRecentRemovable: returning nothing");
+                // Debug.Log($"IdentifyDeepestMostRecentRemovable: returning nothing");
             }
         }
         return deepestMostRecentRemovableItem;

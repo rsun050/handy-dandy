@@ -15,3 +15,10 @@ MonoBehaviour:
   QuestName: Apples for the Smith
   QuestDesc: Collect five apples for the blacksmith.
   QuestGiver: {fileID: 11400000, guid: 0f21070a0b65cbe4592d1a9021be1cea, type: 2}
+  passingRequirements: 00000000
+  requiredItems:
+  - {fileID: 11400000, guid: 2e9d290865251e74a9332346cc0c3e86, type: 2}
+  requiredQuantities: 05000000
+  optionalItems: []
+  numberOfOptionalChecksThatMustPass: 0
+  optionalQuantities: 

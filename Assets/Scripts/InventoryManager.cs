@@ -151,11 +151,16 @@ public class InventoryManager : MonoBehaviour
 			int numRemoved = _activeInventoryItem.Remove(itemData, remainingToRemove, destroy);
 			remainingToRemove -= numRemoved;
 			while(remainingToRemove > 0) {
-				foreach(InventoryItem invItem in _inventoryItems) {
+				for(int i = 0; i < _inventoryItems.Count; i++) {
+					InventoryItem invItem = _inventoryItems[i]; 
 					if(invItem == _activeInventoryItem) continue;
 
 					numRemoved = invItem.Remove(itemData, remainingToRemove, destroy);
 					remainingToRemove -= numRemoved;
+
+					if(invItem._roomRemaining == invItem._invData.Inventory) {
+						UIController.Instance.SwitchHeldItem((i == 0) ? Hand.Left : Hand.Right, null);
+					}
 				}
 			}
 

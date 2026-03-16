@@ -118,13 +118,14 @@ public class Player : MonoBehaviour
         if(_playerCam._lookingAt.rigidbody == null) { return; }
 
         GameObject playerCamLooking = _playerCam._lookingAt.rigidbody.gameObject;
-        if(playerCamLooking.CompareTag("Item"))
-        {
+        if(playerCamLooking.CompareTag("Item")) {
             _inventoryManager.PickUp(playerCamLooking);
         } else if(playerCamLooking.CompareTag("NPC")) {
-            Debug.Log("fuck");
             NPC npc = playerCamLooking.GetComponent<NPC>();
             npc.Interact();
+        } else if(playerCamLooking.CompareTag("Boss")) {
+            Monster monster = playerCamLooking.GetComponent<Monster>();
+            monster.Interact();
         }
     }
 
