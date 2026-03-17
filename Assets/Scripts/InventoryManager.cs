@@ -5,17 +5,25 @@ using UnityEngine;
 public enum InventoryStatus { None, TwoHanding };
 public class InventoryManager : MonoBehaviour
 {
+	public static InventoryManager Instance { get; private set; }
 	private InventoryItem _activeInventoryItem; // guaranteed to have an _activeInventoryItem; if this is ever not true we messed up
 	[SerializeField] private List<InventoryItem> _inventoryItems; // first two should always be Hand (L) and Hand (R)
 	
 	public event Action<int> SwitchActiveE;
+	private int activeInvItem = 0;
 
 	private void Awake() {
+		if(Instance != null && Instance != this) {
+			Destroy(this); return;
+		}
+		Instance = this;
+
 		_activeInventoryItem = _inventoryItems[0];
 	}
 
 	private void Start()
 	{
+		
 	}
 	private void Update()
 	{
@@ -23,46 +31,85 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	public void SwitchActive() {
-		int newActive = (_activeInventoryItem == _inventoryItems[0]) ? 1 : 0;
-		_activeInventoryItem = _inventoryItems[newActive];
-		SwitchActiveE?.Invoke(newActive);
+		activeInvItem = (activeInvItem + 1) % 2;
+		_activeInventoryItem = _inventoryItems[activeInvItem];
+		SwitchActiveE?.Invoke(activeInvItem);
 	}
 
-	public void PickUp(GameObject obj) {
+	public bool PickUp(GameObject obj) {
 		Item newItem = obj.GetComponent<Item>();
-		InventoryItem newInvItem = obj.GetComponent<InventoryItem>();
+
+		bool firstItem = false;
 
 		if(newItem.Data.IsInventoryItem) {
+			if(_activeInventoryItem._roomRemaining == _activeInventoryItem._invData.Inventory) {
+				firstItem = true;
+			} 
+
 			if(_activeInventoryItem.AddInventoryItem(newItem)) { // try to insert in active inventory item
 				newItem.PickUp();
-				_inventoryItems.Add(newInvItem);
-				return;
+
+				if(firstItem) {
+					UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, newItem.Data);
+				}
+
+				DebugView.Instance.DebugUpdate();
+				return true;
 			} else { // try all others
 				foreach(InventoryItem invItem in _inventoryItems) {
+					if(invItem._roomRemaining == invItem._invData.Inventory) firstItem = true;
+					else firstItem = false;
+
 					if(invItem != _activeInventoryItem && invItem.AddInventoryItem(newItem)) {
 						newItem.PickUp();
-						_inventoryItems.Add(newInvItem);
-						return;
+
+						if(firstItem)
+							UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Right : Hand.Left, newItem.Data);
+	
+						DebugView.Instance.DebugUpdate();
+						return true;
 					}
 				}
 			}
 		} else { // is not inventory item
+			if(_activeInventoryItem._roomRemaining == _activeInventoryItem._invData.Inventory) {
+				firstItem = true;
+			} 
 			if(_activeInventoryItem.AddItem(newItem)) { // try to insert in active inventory item
 				newItem.PickUp();
-				return;
+				if(firstItem) {
+					UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, newItem.Data);
+				}
+
+				DebugView.Instance.DebugUpdate();
+				return true;
 			} else { // try all others
 				foreach(InventoryItem invItem in _inventoryItems) {
+					if(invItem._roomRemaining == invItem._invData.Inventory) firstItem = true;
+					else firstItem = false;
+
 					if(invItem != _activeInventoryItem && invItem.AddItem(newItem)) {
 						newItem.PickUp();
-						return;
+						if(firstItem)
+							UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Right : Hand.Left, newItem.Data);
+
+						DebugView.Instance.DebugUpdate();
+						return true;
 					}
 				}
 			}
 		}
+
+		// couldn't insert
+		return false;
 	}
 
 	public void Drop() { // drop most recently pickedup item from activeobj 
 		_activeInventoryItem.RemoveMostRecent();
+		if(_activeInventoryItem._roomRemaining == _activeInventoryItem._invData.Inventory) { // removed last item
+			UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, null);
+		}
+		DebugView.Instance.DebugUpdate();
 	}
 
 	// check all inventory items for item
@@ -97,21 +144,31 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	// remove a number of items (sourced from all inventory items, focuses on active inventory item first)
-	private bool Remove(ItemData itemData, int quantity) {
+	public bool Remove(ItemData itemData, int quantity, bool destroy = false) {
 		if(Has(itemData, quantity)) {
 			int remainingToRemove = quantity;
 
-			int numRemoved = _activeInventoryItem.Remove(itemData, remainingToRemove);
-			remainingToRemove -= numRemoved;
-			while(remainingToRemove > 0) {
-				foreach(InventoryItem invItem in _inventoryItems) {
-					if(invItem == _activeInventoryItem) continue;
-
-					numRemoved = invItem.Remove(itemData, remainingToRemove);
-					remainingToRemove -= numRemoved;
-				}
+			int numRemoved = _activeInventoryItem.Remove(itemData, remainingToRemove, destroy);
+			if(_activeInventoryItem._roomRemaining == _activeInventoryItem._invData.Inventory) {
+				UIController.Instance.SwitchHeldItem((activeInvItem == 0) ? Hand.Left : Hand.Right, null);
 			}
 
+			remainingToRemove -= numRemoved;
+			while(remainingToRemove > 0) {
+				for(int i = 0; i < _inventoryItems.Count; i++) {
+					InventoryItem invItem = _inventoryItems[i]; 
+					if(invItem == _activeInventoryItem) continue;
+
+					numRemoved = invItem.Remove(itemData, remainingToRemove, destroy);
+					remainingToRemove -= numRemoved;
+
+					if(invItem._roomRemaining == invItem._invData.Inventory) {
+						UIController.Instance.SwitchHeldItem((i == 0) ? Hand.Left : Hand.Right, null);
+					}
+				}
+			}
+			
+			DebugView.Instance.DebugUpdate();
 			return true;
 		}
 		return false;

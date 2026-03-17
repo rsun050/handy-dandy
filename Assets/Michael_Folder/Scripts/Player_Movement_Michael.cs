@@ -5,6 +5,7 @@ public class Player_Movement_Michael : MonoBehaviour
     [SerializeField] private CharacterController controller;
 
     [SerializeField] private float speed = 12f;
+    [SerializeField] private float sprintSpeed = 20f;
     [SerializeField] private float gravity = -19.62f;
     [SerializeField] private float jumpHeight = 3f;
 
@@ -26,11 +27,13 @@ public class Player_Movement_Michael : MonoBehaviour
             velocity.y = -2f;
         }
 
+        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : speed;
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * speed * Time.deltaTime);
+        controller.Move(move * currentSpeed * Time.deltaTime);
 
         if (playerAnimScript.gameObject.activeSelf)
         {

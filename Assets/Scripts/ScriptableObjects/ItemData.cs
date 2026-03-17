@@ -11,5 +11,7 @@ public class ItemData : ScriptableObject
     public float Weight;
     public bool IsInventoryItem;
     public bool CanDrop;
+    public GameObject Prefab;
+    public Sprite heldSprite;
 
 }

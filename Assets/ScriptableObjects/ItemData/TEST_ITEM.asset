@@ -18,3 +18,4 @@ MonoBehaviour:
   Weight: 9999
   IsInventoryItem: 0
   CanDrop: 0
+  Prefab: {fileID: 7987749059799605671, guid: d43d12ddcacc1824bbe82a50a6d01398, type: 3}

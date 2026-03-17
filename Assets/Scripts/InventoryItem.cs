@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using UnityEngine;
 
 public class InventoryItem : Item {
@@ -128,6 +126,7 @@ public class InventoryItem : Item {
     // WARNING: does not tag check, assumes item is not an inventory item
     private int _AddItemToSelf(Item item) {
         Debug.Assert(!item.Data.IsInventoryItem);
+        // Debug.Log($"{this.Data.ItemName} picked up {item.Data.ItemName}");
 
         ItemData itemData = item.Data;
         _roomRemaining -= itemData.Weight;
@@ -152,20 +151,20 @@ public class InventoryItem : Item {
     }
 
     // assumes item is NOT an inventory item, inserts into deepest inventory item possible
-    public bool AddItem(Item item)
-    {
+    public bool AddItem(Item item) {
         ItemData itemData = item.Data;
         Debug.Assert(!itemData.IsInventoryItem, "InventoryItem.AddItems is for noninventory items only");
         string s = $"{this.gameObject.name} trying to pick up item {itemData.ItemName}";
 
-        if(this.HasRoom(itemData, 1))
-        {
+        if(this.HasRoom(itemData, 1)) {
             InventoryItem invItem = this.DeepestInventoryItemThatCanHold(itemData).Item1;
+            s += $"\nDeepest inv item that could hold item was {invItem.Data.ItemName}";
+
             invItem._AddItemToSelf(item);
-            Debug.Log(s + "\nSuccess");
+            // Debug.Log(s + "\nSuccess");
             return true;
         }
-        Debug.Log(s + "\nDidn't have room");
+        // Debug.Log(s + "\nDidn't have room");
         return false;
     }
 
@@ -197,10 +196,10 @@ public class InventoryItem : Item {
             InventoryItem invItem = item.gameObject.GetComponent<InventoryItem>();
             invItem.parentInvItem = this;
 
-            Debug.Log(s);
+            // Debug.Log(s);
             return true;
         }
-        Debug.Log(s += $"\ndidn't have room");
+        // Debug.Log(s += $"\ndidn't have room");
         return false;
     }
 
@@ -229,8 +228,14 @@ public class InventoryItem : Item {
         return qty;
     }
 
+    private Vector3 playerpos() {
+        return GameController.PlayerCam.transform.position + 
+            GameController.PlayerCam.transform.GetChild(0).transform.up + 
+            GameController.PlayerCam.transform.GetChild(0).transform.forward;
+    }
+
     // does not check if itemData is removable. if qty == -1, removes all instances
-    private int _Remove(ItemData itemData, bool self = true, int qty = -1) {
+    private int _Remove(ItemData itemData, bool self = true, bool destroy = false, int qty = -1) {
         if(!_quantities.ContainsKey(itemData)) return 0;
 
         if(self) {
@@ -246,7 +251,7 @@ public class InventoryItem : Item {
                     }
                 }
                 foreach(GameObject obj in _items[itemData]) { // drop all items of type
-                    obj.GetComponent<Item>().Drop(GameController.Player.transform.position);
+                    obj.GetComponent<Item>().Drop(playerpos(), destroy);
                 }
                 
                 _items.Remove(itemData); // remove the dictionary holding this type of item, since it's now empty
@@ -268,7 +273,7 @@ public class InventoryItem : Item {
                                 break;
                             }
                         }
-                        _itemInsertedOrder[i].GetComponent<Item>().Drop(GameController.Player.transform.position); // drop the gameobject
+                        _itemInsertedOrder[i].GetComponent<Item>().Drop(playerpos(), destroy); // drop the gameobject
 
                         _itemInsertedOrder.RemoveAt(i);                        
                         i++;
@@ -283,14 +288,15 @@ public class InventoryItem : Item {
             return 0;
         }
     }
-    public int Remove(ItemData itemData, int qtyToRemove) {
+    public int Remove(ItemData itemData, int qtyToRemove, bool destroy = false) {
         if(!itemData.CanDrop) return 0;
         int hasQty = this.Quantity(itemData);
         int totalRemoved = 0;
 
         while(hasQty > 0 && qtyToRemove > 0) {
             InventoryItem invItem = this.DeepestInventoryItemThatHas(itemData).Item1;
-            int numRemoved = invItem._Remove(itemData);
+            int amtHeld = invItem.Quantity(itemData, true);
+            int numRemoved = invItem._Remove(itemData, true, destroy, Math.Max(amtHeld, qtyToRemove));
 
             hasQty -= numRemoved;
             qtyToRemove -= numRemoved;
@@ -300,33 +306,96 @@ public class InventoryItem : Item {
         return totalRemoved;
     }
 
-    public void RemoveMostRecent() {
+    private bool RemoveFromInsertedOrder(Item itemToDelete, int index, bool destroy = false) {
+        // print($"RemoveFromInsertedOrder: received index {index}");
+        if(index >= _itemInsertedOrder.Count || _itemInsertedOrder[index] != itemToDelete.gameObject) {
+            // item not present in this gameobject, in held inventory item
+            foreach(GameObject obj in _itemInsertedOrder) {
+                InventoryItem invItem = obj.GetComponent<InventoryItem>();
+                if(invItem != null) {
+                    if(invItem.RemoveFromInsertedOrder(itemToDelete, index, destroy))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        } else {
+            _roomRemaining += itemToDelete.Data.Weight;
+
+            if(_quantities[itemToDelete.Data] == 1) { // removing last instance
+                _quantities.Remove(itemToDelete.Data);
+                _items.Remove(itemToDelete.Data);
+            } else { // some instances remain
+                _quantities[itemToDelete.Data] -= 1;
+
+                for(int j = 0; j < _items[itemToDelete.Data].Count; j++) { // remove from _items
+                    if(_items[itemToDelete.Data][j] == itemToDelete.gameObject) {
+                        _items[itemToDelete.Data].RemoveAt(j);
+                    }
+                }
+            }
+
+            _itemInsertedOrder.RemoveAt(index);
+            itemToDelete.Drop(playerpos(), destroy);
+
+            return true;
+        }
+    }
+
+    private Tuple<Item, int, int> IdentifyDeepestMostRecentRemovable(bool isInventory = false, int depth = 0) {
+        // Item, index in insertion order, depth
+        Tuple<Item, int, int> deepestMostRecentRemovableItem = null;
+
         for(int i = _itemInsertedOrder.Count - 1; i >= 0; i--) {
-            if(_itemInsertedOrder[i].GetComponent<Item>().Data.CanDrop) {
-                Item item = _itemInsertedOrder[i].GetComponent<Item>();
-
-                _roomRemaining += item.Data.Weight;
-    
-                if(_quantities[item.Data] == 1) { // removing last instance
-                    _quantities.Remove(item.Data);
-                    _items.Remove(item.Data);              
-                } else { // some instances remain
-                    _quantities[item.Data] -= 1;
-
-                    for(int j = 0; j < _items[item.Data].Count; j++) { // remove from _items
-                        if(_items[item.Data][j] == item.gameObject) {
-                            _items[item.Data].RemoveAt(j);
-                            break;
-                        }
+            Item item = _itemInsertedOrder[i].GetComponent<Item>();
+            if(item.Data.CanDrop) {
+                if(item.Data.IsInventoryItem) {
+                    if(isInventory && deepestMostRecentRemovableItem == null) {
+                        deepestMostRecentRemovableItem = Tuple.Create<Item, int, int>(item, i, depth);
                     }
 
-                }
-
-                _itemInsertedOrder.RemoveAt(i);
-                item.Drop(GameController.Player.transform.position);
-                break;
+                    Tuple<Item, int, int> deeperValues = item.GetComponent<InventoryItem>().IdentifyDeepestMostRecentRemovable(isInventory, depth + 1);
+                    if(deeperValues != null && (deepestMostRecentRemovableItem == null || deeperValues.Item3 > deepestMostRecentRemovableItem.Item3)) {
+                        deepestMostRecentRemovableItem = deeperValues;
+                    }
+                } else { // is not inventory item
+                    if(!isInventory) { // not looking for inventory items...
+                        if(deepestMostRecentRemovableItem == null) {
+                            deepestMostRecentRemovableItem = Tuple.Create<Item, int, int>(item, i, depth);
+                        }
+                    }
+                }             
             }
         }
+
+        if(depth == 0) {
+            if(deepestMostRecentRemovableItem != null) {
+                // Debug.Log($"IdentifyDeepestMostRecentRemovable: returning {deepestMostRecentRemovableItem.Item1.Data.ItemName} which is held at a depth of {deepestMostRecentRemovableItem.Item3}");                
+            } else {
+                // Debug.Log($"IdentifyDeepestMostRecentRemovable: returning nothing");
+            }
+        }
+        return deepestMostRecentRemovableItem;
+    }
+
+    public void RemoveMostRecent(bool destroy = false) {
+        // Item, insertion order, depth
+        Tuple<Item, int, int> mostRecentNonInventoryItem = IdentifyDeepestMostRecentRemovable(false);
+        Tuple<Item, int, int> mostRecentInventoryItem = IdentifyDeepestMostRecentRemovable(true);
+
+        if(mostRecentNonInventoryItem == null && mostRecentInventoryItem == null) return; // nothing to remove
+        if(mostRecentInventoryItem == null) { RemoveFromInsertedOrder(mostRecentNonInventoryItem.Item1, mostRecentNonInventoryItem.Item2, destroy); return; }
+        if(mostRecentNonInventoryItem == null) { RemoveFromInsertedOrder(mostRecentInventoryItem.Item1, mostRecentInventoryItem.Item2, destroy); return; }
+
+        // prioritize dropping inventory items first
+        if(mostRecentInventoryItem.Item3 >= mostRecentNonInventoryItem.Item3) {
+            RemoveFromInsertedOrder(mostRecentInventoryItem.Item1, mostRecentInventoryItem.Item2, destroy);
+        } else {
+            RemoveFromInsertedOrder(mostRecentNonInventoryItem.Item1, mostRecentNonInventoryItem.Item2, destroy);
+        }
+
     }
     private int SelfTotalItems(bool droppable)
     {
@@ -363,7 +432,8 @@ public class InventoryItem : Item {
 
     public string Print(string prefix = "", string suffix = "", bool print = false, int tabs = 0)
     {
-        if(tabs != 0) { return new string('\t', tabs) + gameObject.name + ","; }
+        // Debug.Log($"InvItem {gameObject.name} printing self");
+        // if(tabs != 0) { return new string('\t', tabs) + gameObject.name + ","; }
         string s = "{ ";
         string children = "";
         foreach(KeyValuePair<ItemData, List<GameObject>> entry in _items)
@@ -371,9 +441,8 @@ public class InventoryItem : Item {
             if(!entry.Key.IsInventoryItem) {
                 s += entry.Key.ItemName + " : " + entry.Value.Count.ToString() + ", ";                
             } else {
-                foreach(GameObject obj in entry.Value)
-                {
-                    children += obj.GetComponent<InventoryItem>().Print(new string('\t', tabs + 1), "\n", false, tabs + 1);
+                foreach(GameObject obj in entry.Value) {
+                    children += obj.GetComponent<InventoryItem>().Print(prefix, "\n", false, tabs + 1);
                 }
             }
         }
@@ -389,6 +458,8 @@ public class InventoryItem : Item {
         if(print) {
             Debug.Log(prefix + s + suffix);
         }
-        return(prefix + s + suffix);
+
+        if(tabs != 0) return new string('\t', tabs) + gameObject.name + "," + s + suffix;
+        else return(prefix + s + suffix);
     }
 }

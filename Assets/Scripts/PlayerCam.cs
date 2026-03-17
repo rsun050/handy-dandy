@@ -10,15 +10,30 @@ public class PlayerCam : MonoBehaviour
 
     public RaycastHit _lookingAt;
     private const int itemLayer = 7;
+    private const int NPCLayer = 8;
+    private const int bossLayer = 9;
 
-    // Start is called before the first frame update
+    private const int combinedLayers = (1 << itemLayer) + (1 << NPCLayer) + (1 << bossLayer);
+
     void Start()
     {
+        DialogueManager.Instance.toggleCamLockE += ToggleCamLock;
+
         Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false; 
 
         xRotation = 0.0f;
         yRotation = -360.0f;     
+    }
+
+    void ToggleCamLock() {
+        if(Cursor.lockState == CursorLockMode.None) {
+            Cursor.lockState = CursorLockMode.Locked;        
+    		Cursor.visible = false; 
+        } else {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 
     void OnDrawGizmos()
@@ -36,8 +51,10 @@ public class PlayerCam : MonoBehaviour
 
     void LateUpdate()
     {
-        MoveCam();
-        Look();
+        if(GameController.Player._canMove) {
+            MoveCam();
+            Look();            
+        }
     }
 
     private void MoveCam() {
@@ -54,6 +71,6 @@ public class PlayerCam : MonoBehaviour
 
     private void Look()
     {
-        Physics.Raycast(transform.position, transform.forward, out _lookingAt, 10f, 1 << itemLayer);
+        Physics.Raycast(transform.position, transform.forward, out _lookingAt, 5f, combinedLayers);
     }
 }

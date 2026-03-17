@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89feb608239c0e242b3c15dae686f155, type: 3}
+  m_Name: SmithQuestIP
+  m_EditorClassIdentifier: 
+  nextFragments:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: ea18475684f8f0743b6af0ffa5ede30a, type: 2}
+  dialogue:
+  - Gotten into the cave yet?
+  playerOptions:
+  - In time
+  - I could use some help
