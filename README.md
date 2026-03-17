@@ -60,7 +60,7 @@ Since the checkin I finished up the `InventoryManager` (dropping items, checking
 
 ## Open-Source Assets
 ### Sounds
-Background Audio [Relaxing Music with Nature Sounds - Waterfall HD](https://www.youtube.com/watch?v=lE6RYpe9IT0&list=RDlE6RYpe9IT0&start_radio=1)
+Background Audio [Relaxing Music with Nature Sounds - Waterfall HD](https://www.youtube.com/watch?v=lE6RYpe9IT0&list=RDlE6RYpe9IT0&start_radio=1)<br>
 Some sounds made using [jsfxr](sfxr.me)
 
 ### Skybox
@@ -70,8 +70,8 @@ Some sounds made using [jsfxr](sfxr.me)
 [StoneSnail - Dragon model & animations](https://assetstore.unity.com/packages/3d/characters/small-red-dragon-52959)
 
 ### World
-[MysticForge - World Model](assetstore.unity.com/packages/3d/environments/low-poly-environment-starter-pack-228606)
-[OlyPoly - Tree model](https://assetstore.unity.com/packages/3d/vegetation/trees/free-low-poly-trees-pack-273724)
+[MysticForge - World Model](assetstore.unity.com/packages/3d/environments/low-poly-environment-starter-pack-228606)<br>
+[OlyPoly - Tree model](https://assetstore.unity.com/packages/3d/vegetation/trees/free-low-poly-trees-pack-273724)<br>
 [Anastasita3D - Campfire model](https://assetstore.unity.com/packages/3d/props/low-poly-medieval-environment-pack-35-props-314846)
 
 ### Items
