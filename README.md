@@ -37,6 +37,21 @@ Looking back at our original plan, it was okay, but I missed a few small things 
 
 ## Final Submission
 ### Group Devlog
+We used the following three design patterns in our project:
+#### MVC Patterns + C# events:
+MVC was helpful to separate different parts of the game into more clearly defined roles. ScriptableObjects made data easier to modify without having to change any code. Having all our UI managed in a single 'place' also made it easier to make UI changes without getting lost in logic code.
+- <ins>**M**</ins>odel (game data): we used `ScriptableObjects` to define `Item`, `NPC`, and `Quest` data (Scripts/ScriptableObjects/ItemData.cs, NPCData.cs, QuestData.cs), as well as dialogue `Fragments`.
+- <ins>**V**</ins>iew (visuals): we implemented a `UIController` that handles data displayed to the player, such as the quest tracker, item information. We also implemented a `DialogueManager` that handles the display of NPC dialogue.
+- <ins>**C**</ins>ontroller (game logic): The `DialogueManager` also handles the processing and flow of dialogue branches. It fires an <ins>**event**</ins> (`dialogueEndE`) to let the NPC that started the dialogue know when they can stop their talking animation. The `InventoryManager` handles adding and removing items to/from the player's inventory.
+
+#### Inheritance w/ Polymorphism:
+Inheritance was useful when we needed shared attributes/functions between classes. It let us implement more using less repetitive code, which in turn made modifying code easier, as we only had to write it once.
+- `Item` and `InventoryItem`: an `InventoryItem` is just a special `Item` with inventory space that can hold other `Item`s. So along with the usual `Item` attributes (such as weight and tags), an `InventoryItem` also has inventory space, as well as tracks all the `Item`s it holds.
+- `Monster` and `NPC`: similar in that they both can be interacted with; we had both of these classes inherit from an `interface` named `IInteractable` and implement the required `Inherit()` function. The classes differ in that an NPC's interaction gives out and completes quests, while a Monster is defeatable only if you have a proper item.
+
+#### Singleton:
+Singletons were useful when we needed quick and easy references to important modules such as the UIController or QuestManager. They let us reference these modules without needing a \[SerializeField] reference. We had multiple singletons: UIController, QuestManager, DialogueManager, Player, and InventoryManager.
+
 ### Ruth Sun 
 ### Armando Topete
 ### Michael Lopez
