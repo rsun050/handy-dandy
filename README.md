@@ -56,7 +56,9 @@ Singletons were useful when we needed quick and easy references to important mod
 Since the checkin I finished up the `InventoryManager` (dropping items, checking if the inventory contains {amt} of {item}) as well as wrote up the dialogue system (the logic code (`DialogueManager`)/ScriptableObjects (`Fragment`, `DialogueFragment`, `ItemFragment`, `QuestFragment`) as well as set up the UI for the dialogue in Unity (text and option buttons).
 
 ### Armando Topete
+
 ### Michael Lopez
+Since the last check-in, I was trying to make the environment look better, by adding some extra assets into it. I ended up grabbing pre-made assets with good materials and good animations and made it work with the current scene. I was working on adding some tiny user-improvement like adding a sprint key and making the camera "zoom in" while you were sprinting, and I was also working on making the apples actually fall from the trees.
 
 ## Open-Source Assets
 ### Sounds
