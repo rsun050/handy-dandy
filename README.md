@@ -57,6 +57,9 @@ Since the checkin I finished up the `InventoryManager` (dropping items, checking
 
 ### Armando Topete
 
+Since the last check-in, I finished up the hands design to interact with items and made some 2D NPC character designs to interact with. I ended up also scrapping the physical inventory UI for the game because I feel like it wasn't necessary for the build. 
+
+
 ### Michael Lopez
 Since the last check-in, I was trying to make the environment look better, by adding some extra assets into it. I ended up grabbing pre-made assets with good materials and good animations and made it work with the current scene. I was working on adding some tiny user-improvement like adding a sprint key and making the camera "zoom in" while you were sprinting, and I was also working on making the apples actually fall from the trees.
 
