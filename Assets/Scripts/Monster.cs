@@ -1,9 +1,7 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
-{
+public class Monster : MonoBehaviour, IInteractable {
 	[field: SerializeField] public NPCData data {get; private set; }
 	[SerializeField] private Animation animator;
 

@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
 	[SerializeField] private UnityEngine.UI.Button[] _dialogueOptions;
 
 	public event Action toggleCamLockE;
+	public event Action dialogueEndE;
 	public event Action<Choice> optionChosenE;
 
 	private void Awake() {
@@ -161,6 +162,7 @@ public class DialogueManager : MonoBehaviour
 		// Debug.Log("Displaying dialogue");
  		if(_currentFragment == null) {
 			EndDialogue();
+			dialogueEndE?.Invoke();
 		} else {
 			DialogueFragment df = (DialogueFragment)_currentFragment;
 			_dialogueText.text = df.dialogue[_playingDialogueLine];

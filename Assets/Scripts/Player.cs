@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         
         // grounding ray
-        Gizmos.DrawRay(transform.position, Vector3.down * (_playerHeight * 0.5f + 0.2f));
+        Gizmos.DrawRay(transform.position, Vector3.down * (_playerHeight * 0.5f + 0.3f));
     }
 
     private void Move() {
@@ -92,7 +92,12 @@ public class Player : MonoBehaviour
     }
 
     private void GroundCheck() {
-        _isGrounded = Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.3f, _groundMask);
+        RaycastHit hit;
+        _isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, _playerHeight * 0.5f + 0.3f, _groundMask);
+
+        // if(hit.collider != null) {
+        //     Debug.Log($"player is touching ground: ground is {hit.collider.gameObject.name}");
+        // }
     }
 
     private void ClampSpeed() {

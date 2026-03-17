@@ -81,10 +81,15 @@ public class UIController : MonoBehaviour
             NPCData npcData = hit.rigidbody.gameObject.GetComponent<NPC>().npcData;
 
             if(_itemUI.activeSelf && _itemName.text == npcData.NPCName) { return; }
-            _itemUI.SetActive(true);
-            _itemName.text = npcData.NPCName;
-            _itemDesc.text = npcData.NPCDesc;
-            _itemTags.text = "";
+
+            if(npcData == null) {
+                _itemUI.SetActive(false);            
+            } else {
+                _itemUI.SetActive(true);
+                _itemName.text = npcData.NPCName;
+                _itemDesc.text = npcData.NPCDesc;
+                _itemTags.text = "";                
+            }
         } else if(hit.rigidbody.gameObject.CompareTag("Boss")) {
             NPCData monsterData = hit.rigidbody.gameObject.GetComponent<Monster>().data;
 
