@@ -53,6 +53,8 @@ Inheritance was useful when we needed shared attributes/functions between classe
 Singletons were useful when we needed quick and easy references to important modules such as the UIController or QuestManager. They let us reference these modules without needing a \[SerializeField] reference. We had multiple singletons: UIController, QuestManager, DialogueManager, Player, and InventoryManager.
 
 ### Ruth Sun 
+Since the checkin I finished up the `InventoryManager` (dropping items, checking if the inventory contains {amt} of {item}) as well as wrote up the dialogue system (the logic code (`DialogueManager`)/ScriptableObjects (`Fragment`, `DialogueFragment`, `ItemFragment`, `QuestFragment`) as well as set up the UI for the dialogue in Unity (text and option buttons).
+
 ### Armando Topete
 ### Michael Lopez
 
